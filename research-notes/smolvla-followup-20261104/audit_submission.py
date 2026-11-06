@@ -15,12 +15,13 @@ def main():
         results[name] = audit(name, DATA / 'screen40-variants' / name)
     results['official-defaults'] = audit(
         'official-defaults', DATA / 'official200-defaults', 20, 'official_sr')
+    results['official-flash-mm'] = audit('official-flash-mm', DATA / 'official200-flash-mm', 20, 'official_sr')
     # The manifest selects the recovered task 9, excluding all interrupted attempts.
-    require(sum(r['episodes'] for r in results.values()) == 360, 'episode total')
+    require(sum(r['episodes'] for r in results.values()) == 560, 'episode total')
     report = {
         'state': 'verified',
         'scope': 'Final manifest CSVs only; no video, kernel, environment or model-quality certification',
-        'episodes': 360,
+        'episodes': 560,
         'results': results,
     }
     (DATA / 'submission-audit.json').write_text(json.dumps(report, indent=2) + '\n')
@@ -28,12 +29,12 @@ def main():
         '# Đối chiếu kết quả LIBERO theo task',
         '',
         'Sinh từ CSV bằng `python3 research-notes/smolvla-followup-20261104/audit_submission.py` tại gốc repo. '
-        'Kiểm tra 360 episode: 200 official defaults, 40 screening defaults và 120 screening biến thể. '
+        'Kiểm tra 560 episode: 200 official defaults, 200 official flash-mm, 40 screening defaults và 120 screening biến thể. '
         'Kiểm tra task/episode ID, số bước, success, aborted và SR so với manifest; lưu SHA256 từng CSV trong '
         '[submission-audit.json](submission-audit.json). Không chạy inference mới hoặc kiểm tra lại video.',
         '',
-        '| Task | Defaults /4 | Flash-mm /4 | Q8-lm /4 | Q8-vision /4 | Official defaults /20 |',
-        '|---|---:|---:|---:|---:|---:|',
+        '| Task | Defaults /4 | Flash-mm /4 | Q8-lm /4 | Q8-vision /4 | Official defaults /20 | Official flash-mm /20 |',
+        '|---|---:|---:|---:|---:|---:|---:|',
     ]
     for task_id in range(10):
         values = [str(r['tasks'][task_id]['successes']) for r in results.values()]
@@ -41,7 +42,7 @@ def main():
     lines.extend([
         '| Tổng | ' + ' | '.join(str(r['successes']) for r in results.values()) + ' |',
         '',
-        'Mọi CSV được chọn có aborted=0. Official task 9 lấy đường dẫn recovery trong result.json; '
+        'Mọi CSV được chọn có aborted=0. Official defaults task 9 lấy đường dẫn recovery trong result.json; '
         'không cộng episode của lượt bị gián đoạn. Hash chỉ xác nhận nội dung artifact tại lúc audit, '
         'không chứng minh môi trường hoặc noise có thể tái hiện từng bit.',
         '',
@@ -56,7 +57,7 @@ def main():
     (DATA / 'TASK_RESULTS.md').write_text('\n'.join(lines))
     for name, result in results.items():
         print(f"{name}: {result['successes']}/{result['episodes']}, aborted={result['aborted']}")
-    print('Verified 360 episodes; wrote submission-audit.json and TASK_RESULTS.md.')
+    print('Verified 560 episodes; wrote submission-audit.json and TASK_RESULTS.md.')
 
 
 if __name__ == '__main__':

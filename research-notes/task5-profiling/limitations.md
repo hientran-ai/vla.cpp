@@ -26,7 +26,7 @@ Vision softmax giảm cùng chuyển sang flash path gợi ý giảm materializa
 |---|---|
 |Kiến trúc paper + source, shapes/denoise|Có; cấu hình checkpoint được phân biệt paper|
 |Phase latency và giới hạn|Có dữ liệu cũ được tính lại, timer/synchronization/padding đã giải thích|
-|Default vs optimized runtime|Có3run/cấu hình, giữ10steps; chưa chứng minh upstream original hoặc best quality|
+|Default vs optimized runtime|Có3run/cấu hình, giữ10steps; chọn flash-mm theo SR official quan sát 178/200 so với defaults177/200; chưa chứng minh upstream original hoặc ưu thế thống kê|
 |Nsys GEMM/attention/other|Có phân nhóm tên trên trace lưu; exact attention N/A; completeness có cảnh báo|
 |Khoảng trống giữa kernels|Có interval union; không chứng minh toàn GPU idle/nguyên nhân CPU|
 |WSL2 limitations|Có log cụ thể và docs chính thức|

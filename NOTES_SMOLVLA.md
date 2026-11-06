@@ -573,3 +573,6 @@ Official200 flash-mm: task 7 hoàn tất 20/20; tổng tạm thời 139/160. Log
 Official200 flash-mm: task 8 hoàn tất 20/20; tổng tạm thời 159/180. Log official200-flash-mm/task-8.log; SR tạm thời; chỉ chốt sau đủ200 episode.
 
 Official200 flash-mm: task 9 hoàn tất 19/20; tổng tạm thời 178/200. Log official200-flash-mm/task-9.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+
+Cập nhật chốt báo cáo ngày 06/11/2026: Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200. Đối chiếu CSV official flash-mm và cập nhật báo cáo, phụ lục tính toán, audit theo task; không chạy inference mới.

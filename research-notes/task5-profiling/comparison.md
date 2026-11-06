@@ -1,6 +1,6 @@
 # Defaults vs ứng viên runtime flash-mm
 
-Best ở đây là ứng viên runtime giữ10steps đã có đo lặp, không best quality hoặc mọi cấu hình khả dĩ. Precision arithmetic khác có chủ đích; model/input/steps giữ nguyên. Không gộp số từ các population khác nhau.
+Flash-mm là cấu hình runtime giữ10steps đã có đo lặp và hiện có SR official quan sát cao nhất trong các bản đã đánh giá đủ200episode:178/200 so với defaults177/200. Chưa chứng minh ưu thế thống kê hoặc tốt nhất trên mọi cấu hình; Q8 chưa có official200. Precision arithmetic khác có chủ đích; model/input/steps giữ nguyên. Không gộp số từ các population khác nhau.
 
 | Metric | Baseline | Flash-mm | Difference best−base |
 |---|---:|---:|---:|

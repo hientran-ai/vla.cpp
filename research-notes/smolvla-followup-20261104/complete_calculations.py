@@ -49,7 +49,7 @@ for name,d in bench.items():
     if 'q' not in name: continue
     rows.append([name,f'{100*(1-d["mean_ms"]/bench["defaults"]["mean_ms"]):.2f}%',f'{100*(1-mem[name]["peak_MiB"]/mem["defaults"]["peak_MiB"]):.2f}%'])
 out.append(table(['Quantization','Giảm mean so 113,7 ms','Giảm allocation'],rows))
-out.append('''Q8-lm và Q8-vision là ứng viên để đánh giá giảm bộ nhớ; flash-mm là ứng viên ưu tiên latency. Chưa xác nhận giữ chất lượng. Đây là lựa chọn để đánh giá tiếp, chưa phải winner official200. Không cộng speedup quantization với flash-mm khi chưa đo cấu hình kết hợp.
+out.append('''Q8-lm và Q8-vision là ứng viên để đánh giá giảm bộ nhớ; flash-mm là ứng viên ưu tiên latency. Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200. Không cộng speedup quantization với flash-mm khi chưa đo cấu hình kết hợp.
 
 ## Task 4 — SR, độ bất định và dự toán official
 
@@ -59,10 +59,12 @@ for label,path in [('Defaults screening','screen40-defaults/result.json'),('Flas
     d=read(path); n=d['completed_episodes']; k=d['successes']; assert n==40
     lo,hi=wilson(k,n)
     rows.append([label,f'{k}/{n}',f'{100*k/n:.1f}%',f'{100*lo:.1f}–{100*hi:.1f}%',f'{200*k/n:.0f}/200 (dự toán)'])
-lo,hi=wilson(177,200)
-rows.append(['Defaults official','177/200','88,5%',f'{100*lo:.1f}–{100*hi:.1f}%','đã đo'])
+for label,path in [('Defaults official','official200-defaults/result.json'),('Flash-mm official','official200-flash-mm/result.json')]:
+    d=read(path); k=d['successes']; n=d['completed_episodes']; assert d['state']=='complete' and n==200
+    lo,hi=wilson(k,n)
+    rows.append([label,f'{k}/{n}',f'{100*k/n:.1f}%',f'{100*lo:.1f}–{100*hi:.1f}%','đã đo'])
 out.append(table(['Cấu hình','Thành công','SR đo','Wilson 95% tính','Quy đổi tuyến tính'],rows))
-out.append('''Dự toán 175/200 cho flash-mm và 180/200 cho Q8-lm và Q8-vision chỉ là 200×SR screening, giả định cùng phân phối; không được đưa vào cột official đo thật. Defaults screening dự toán 190/200 nhưng official thực tế 177/200 cho thấy phép ngoại suy có thể lệch đáng kể. Q8-vision đã hoàn tất 36/40 = 90%; không suy SR từ RMSE hoặc smoke. Hai bản Q8 cùng số thành công nhưng không chứng minh tương đương chất lượng. Official của các biến thể vẫn chưa đo. Với 3 biến thể tối đa, ngân sách còn 600 episode; chọn 2 biến thể thì 400 episode. Thời gian chạy không thể tính chỉ từ engine latency vì số bước/task và simulator thay đổi.
+out.append('''Dự toán 175/200 cho flash-mm và 180/200 cho Q8-lm và Q8-vision chỉ là 200×SR screening, giả định cùng phân phối; không được đưa vào cột official đo thật. Defaults screening dự toán 190/200 nhưng official thực tế 177/200 cho thấy phép ngoại suy có thể lệch đáng kể. Q8-vision đã hoàn tất 36/40 = 90%; không suy SR từ RMSE hoặc smoke. Hai bản Q8 cùng số thành công nhưng không chứng minh tương đương chất lượng. Flash-mm official đã đo 178/200, thay dự toán cũ 175/200 khi lựa chọn theo kết quả official. Hai bản Q8 chưa đo official; nếu đánh giá đủ cả hai thì còn 400 episode. Thời gian chạy không thể tính chỉ từ engine latency vì số bước/task và simulator thay đổi.
 
 ## Task 5 — phân bổ GPU và mô hình dự báo
 

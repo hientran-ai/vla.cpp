@@ -19,11 +19,11 @@ Phạm vi chốt báo cáo: sử dụng kết quả đã đo, không chạy thê
 | q8-lm | 40/40 | 36 | complete: 90% |
 | q8-vision | 40/40 | 36 | complete: 90% |
 
-Batch đã hoàn tất 120/120 episode, cả ba cấu hình exit 0. Official200 cho biến thể chưa chạy; screening chưa đủ để kết luận giữ chất lượng. Q8-vision giảm allocation còn 925,88 MiB, thấp hơn Q8-lm 1020,70 MiB; cả hai đạt 36/40 nhưng chưa chứng minh tương đương. Flash-mm ưu tiên latency; defaults vẫn là bản có SR official đã đo.
+Batch đã hoàn tất 120/120 episode, cả ba cấu hình exit 0. Official flash-mm đã hoàn tất 178/200 (89,0%), không abort; hai bản Q8 chưa chạy official200. Q8-vision giảm allocation còn 925,88 MiB, thấp hơn Q8-lm 1020,70 MiB; cả hai đạt 36/40 nhưng chưa chứng minh tương đương. Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200.
 
 ## Task 5 — architecture và profiling đã audit
 
-Đối chiếu sáu raw latency log và hai node traces có sẵn; không chạy GPU workload mới khi server đang dùng GPU. Runtime-pair: trung vị ba run means **114,1 → 92,4 ms (−19,02%)**; đây là batch/thống kê riêng với bảng phần 3. Vision+connector wall time 56,1 → 43,6 ms. Flash-mm là ứng viên runtime giữ 10 steps, chưa best theo chất lượng.
+Đối chiếu sáu raw latency log và hai node traces có sẵn; không chạy GPU workload mới khi server đang dùng GPU. Runtime-pair: trung vị ba run means **114,1 → 92,4 ms (−19,02%)**; đây là batch/thống kê riêng với bảng phần 3. Vision+connector wall time 56,1 → 43,6 ms. Flash-mm giữ 10 steps và được chọn theo SR official quan sát; chưa chứng minh ưu thế chất lượng ổn định.
 
 Cả hai trace có cảnh báo **có thể chưa thu đủ CUDA events** và sử dụng legacy software tracing. Gap 10,54% → 9,13% mô tả recorded process activity, không chứng minh toàn GPU idle. Phase CPU wall có đồng bộ GPU nhưng đổi graph/padding, không phải pure kernel time hay phân rã chính xác default path. Chưa có connector/attention riêng hoặc rerun CUDA tests. [Báo cáo audit, source và tái lập](research-notes/task5-profiling/README.md).
 
@@ -41,4 +41,4 @@ Cả hai trace có cảnh báo **có thể chưa thu đủ CUDA events** và s�
 
 VRAM là peak traced allocation, chưa phải toàn bộ resident VRAM riêng process trên WSL. Latency chỉ so với control cùng batch. Output-check dùng input synthetic khác benchmark và không thay được SR. Server noise chưa cố định. Pruning hiện là depth ablation, chưa tái hiện CLP; cả3bản smoke0/2. Các chi tiết test fail, môi trường và recovery được công bố trong báo cáo tổng thể.
 
-Dự toán, chưa đo: flash-mm175/200, Q8-lm180/200 và Q8-vision180/200 bằng200×SRscreening; không dùng làm kết quả official. Kết quả âm pruning vẫn được báo đầy đủ: ba bản giảm depth đều smoke0/2. Mục tiêu triển khai giữSR chưa đạt; defaults177/200 vẫn là mốc chính thức.
+Flash-mm official đo thật đạt 178/200; dự toán cũ 175/200 từ screening không còn là trạng thái đánh giá hiện tại. Q8-lm180/200 và Q8-vision180/200 là dự toán bằng200×SRscreening, chưa đo official. Kết quả âm pruning vẫn được báo đầy đủ: ba bản giảm depth đều smoke0/2. Chọn flash-mm theo SR official quan sát so với baseline defaults177/200; chưa chứng minh non-inferiority thống kê.

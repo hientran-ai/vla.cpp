@@ -36,7 +36,7 @@ Giảm latency = 100×(1−T/T0), speedup = T0/T, giảm allocation = 100×(1−
 | smolvla-q8_0-lm | 3.69% | 46.63% |
 | smolvla-q8_0-vision | 3.08% | 51.59% |
 
-Q8-lm và Q8-vision là ứng viên để đánh giá giảm bộ nhớ; flash-mm là ứng viên ưu tiên latency. Chưa xác nhận giữ chất lượng. Đây là lựa chọn để đánh giá tiếp, chưa phải winner official200. Không cộng speedup quantization với flash-mm khi chưa đo cấu hình kết hợp.
+Q8-lm và Q8-vision là ứng viên để đánh giá giảm bộ nhớ; flash-mm là ứng viên ưu tiên latency. Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200. Không cộng speedup quantization với flash-mm khi chưa đo cấu hình kết hợp.
 
 ## Task 4 — SR, độ bất định và dự toán official
 
@@ -48,9 +48,10 @@ Wilson 95% dùng z=1,959964, p=k/n; tâm=(p+z²/2n)/(1+z²/n), nửa rộng=z√
 | Flash-mm screening | 35/40 | 87.5% | 73.9–94.5% | 175/200 (dự toán) |
 | Q8-lm screening | 36/40 | 90.0% | 76.9–96.0% | 180/200 (dự toán) |
 | Q8-vision screening | 36/40 | 90.0% | 76.9–96.0% | 180/200 (dự toán) |
-| Defaults official | 177/200 | 88,5% | 83.3–92.2% | đã đo |
+| Defaults official | 177/200 | 88.5% | 83.3–92.2% | đã đo |
+| Flash-mm official | 178/200 | 89.0% | 83.9–92.6% | đã đo |
 
-Dự toán 175/200 cho flash-mm và 180/200 cho Q8-lm và Q8-vision chỉ là 200×SR screening, giả định cùng phân phối; không được đưa vào cột official đo thật. Defaults screening dự toán 190/200 nhưng official thực tế 177/200 cho thấy phép ngoại suy có thể lệch đáng kể. Q8-vision đã hoàn tất 36/40 = 90%; không suy SR từ RMSE hoặc smoke. Hai bản Q8 cùng số thành công nhưng không chứng minh tương đương chất lượng. Official của các biến thể vẫn chưa đo. Với 3 biến thể tối đa, ngân sách còn 600 episode; chọn 2 biến thể thì 400 episode. Thời gian chạy không thể tính chỉ từ engine latency vì số bước/task và simulator thay đổi.
+Dự toán 175/200 cho flash-mm và 180/200 cho Q8-lm và Q8-vision chỉ là 200×SR screening, giả định cùng phân phối; không được đưa vào cột official đo thật. Defaults screening dự toán 190/200 nhưng official thực tế 177/200 cho thấy phép ngoại suy có thể lệch đáng kể. Q8-vision đã hoàn tất 36/40 = 90%; không suy SR từ RMSE hoặc smoke. Hai bản Q8 cùng số thành công nhưng không chứng minh tương đương chất lượng. Flash-mm official đã đo 178/200, thay dự toán cũ 175/200 khi lựa chọn theo kết quả official. Hai bản Q8 chưa đo official; nếu đánh giá đủ cả hai thì còn 400 episode. Thời gian chạy không thể tính chỉ từ engine latency vì số bước/task và simulator thay đổi.
 
 ## Task 5 — phân bổ GPU và mô hình dự báo
 

@@ -1,7 +1,7 @@
 {
   "state": "verified",
   "scope": "Final manifest CSVs only; no video, kernel, environment or model-quality certification",
-  "episodes": 360,
+  "episodes": 560,
   "results": {
     "defaults": {
       "episodes": 40,
@@ -2697,6 +2697,1314 @@
               "episode": 19,
               "success": 1,
               "steps": 126,
+              "aborted": 0
+            }
+          ]
+        }
+      ]
+    },
+    "official-flash-mm": {
+      "episodes": 200,
+      "successes": 178,
+      "aborted": 0,
+      "screening_sr": 0.89,
+      "tasks": [
+        {
+          "task_id": 0,
+          "episodes": 20,
+          "successes": 17,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_0/episodes.csv",
+          "csv_sha256": "f9d3df2b047166a49eb8dd8099b05c552ad0c1cdc24c32d453676a4dcb27b4e8",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 157,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 183,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 179,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 170,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 1,
+              "steps": 137,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 175,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 1,
+              "steps": 155,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 159,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 1,
+              "steps": 147,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 171,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 1,
+              "steps": 142,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 137,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 201,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 1,
+              "steps": 157,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 1,
+              "steps": 158,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 1,
+              "steps": 152,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 1,
+              "steps": 155,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 1,
+          "episodes": 20,
+          "successes": 19,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_1/episodes.csv",
+          "csv_sha256": "0bc6630d69aaab70c23e5f2030a3ff0ecdaca417cd693ed5acc07d188450ef58",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 172,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 143,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 169,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 128,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 1,
+              "steps": 148,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 170,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 1,
+              "steps": 135,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 1,
+              "steps": 159,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 159,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 157,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 1,
+              "steps": 126,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 164,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 386,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 1,
+              "steps": 127,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 1,
+              "steps": 149,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 1,
+              "steps": 146,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 1,
+              "steps": 152,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 1,
+              "steps": 141,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 1,
+              "steps": 124,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 2,
+          "episodes": 20,
+          "successes": 15,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_2/episodes.csv",
+          "csv_sha256": "b0c960db5e6ff7fcdddb5c4c62992c0d47364cde7fd5e8ee3122ad6c262c0a08",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 147,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 134,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 145,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 125,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 1,
+              "steps": 128,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 1,
+              "steps": 124,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 133,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 139,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 1,
+              "steps": 158,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 134,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 127,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 1,
+              "steps": 123,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 1,
+              "steps": 149,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 1,
+              "steps": 139,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 1,
+              "steps": 136,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 3,
+          "episodes": 20,
+          "successes": 19,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_3/episodes.csv",
+          "csv_sha256": "bf03d0844d1b7f1aaaab21120133e758fc1e837a2e0e1895086c5c4a75b0e297",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 143,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 151,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 137,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 151,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 1,
+              "steps": 149,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 127,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 1,
+              "steps": 153,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 1,
+              "steps": 127,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 124,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 1,
+              "steps": 123,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 139,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 1,
+              "steps": 177,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 136,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 142,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 1,
+              "steps": 131,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 1,
+              "steps": 128,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 1,
+              "steps": 138,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 1,
+              "steps": 139,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 1,
+              "steps": 133,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 4,
+          "episodes": 20,
+          "successes": 19,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_4/episodes.csv",
+          "csv_sha256": "5494c07e6d316656df3655eed3aceb12bd253e051d895da76080dc61f3710880",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 175,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 142,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 161,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 161,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 1,
+              "steps": 154,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 159,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 1,
+              "steps": 146,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 1,
+              "steps": 145,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 153,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 1,
+              "steps": 153,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 169,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 1,
+              "steps": 147,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 160,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 152,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 1,
+              "steps": 156,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 1,
+              "steps": 180,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 1,
+              "steps": 208,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 1,
+              "steps": 145,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 1,
+              "steps": 165,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 5,
+          "episodes": 20,
+          "successes": 10,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_5/episodes.csv",
+          "csv_sha256": "94cac53de3a412854c239efed883886992b00806982105cea7e1b2aff1372804",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 135,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 1,
+              "steps": 129,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 153,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 1,
+              "steps": 138,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 131,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 209,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 145,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 200,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 1,
+              "steps": 244,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 1,
+              "steps": 159,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 6,
+          "episodes": 20,
+          "successes": 20,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_6/episodes.csv",
+          "csv_sha256": "8ad7941b6aa36dd9fe36a846b4624dfde332e0ae344edae9b2f7c032b213cd6d",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 157,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 162,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 149,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 165,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 1,
+              "steps": 172,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 153,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 1,
+              "steps": 153,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 1,
+              "steps": 152,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 200,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 1,
+              "steps": 147,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 190,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 1,
+              "steps": 169,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 247,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 198,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 1,
+              "steps": 161,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 1,
+              "steps": 167,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 1,
+              "steps": 154,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 1,
+              "steps": 153,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 1,
+              "steps": 161,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 1,
+              "steps": 165,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 7,
+          "episodes": 20,
+          "successes": 20,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_7/episodes.csv",
+          "csv_sha256": "5291ceea66876d1b8d9be905fa38dad6e419c78f6ab0882f7e387719a785934b",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 132,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 150,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 128,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 139,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 1,
+              "steps": 138,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 136,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 1,
+              "steps": 141,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 1,
+              "steps": 119,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 145,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 1,
+              "steps": 128,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 136,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 1,
+              "steps": 135,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 164,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 140,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 1,
+              "steps": 128,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 1,
+              "steps": 131,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 1,
+              "steps": 145,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 1,
+              "steps": 130,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 1,
+              "steps": 126,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 1,
+              "steps": 170,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 8,
+          "episodes": 20,
+          "successes": 20,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_8/episodes.csv",
+          "csv_sha256": "21b5b249cb9e923d356263308a7e3b4d875fffcb1ab0296c02004971468908eb",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 188,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 165,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 159,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 166,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 1,
+              "steps": 188,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 215,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 1,
+              "steps": 174,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 1,
+              "steps": 163,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 173,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 1,
+              "steps": 202,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 167,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 1,
+              "steps": 164,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 190,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 223,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 1,
+              "steps": 175,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 1,
+              "steps": 179,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 1,
+              "steps": 150,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 1,
+              "steps": 177,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 1,
+              "steps": 166,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 1,
+              "steps": 162,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 9,
+          "episodes": 20,
+          "successes": 19,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/official200-flash-mm/outputs/smolvla/libero_object/task_9/episodes.csv",
+          "csv_sha256": "69fbe0cd6991c5d1299dfa2623f8fd1f15013ca40225498c125ca29542f4e647",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 132,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 135,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 133,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 128,
+              "aborted": 0
+            },
+            {
+              "episode": 4,
+              "success": 1,
+              "steps": 128,
+              "aborted": 0
+            },
+            {
+              "episode": 5,
+              "success": 1,
+              "steps": 190,
+              "aborted": 0
+            },
+            {
+              "episode": 6,
+              "success": 1,
+              "steps": 126,
+              "aborted": 0
+            },
+            {
+              "episode": 7,
+              "success": 1,
+              "steps": 132,
+              "aborted": 0
+            },
+            {
+              "episode": 8,
+              "success": 1,
+              "steps": 137,
+              "aborted": 0
+            },
+            {
+              "episode": 9,
+              "success": 1,
+              "steps": 128,
+              "aborted": 0
+            },
+            {
+              "episode": 10,
+              "success": 1,
+              "steps": 125,
+              "aborted": 0
+            },
+            {
+              "episode": 11,
+              "success": 1,
+              "steps": 120,
+              "aborted": 0
+            },
+            {
+              "episode": 12,
+              "success": 1,
+              "steps": 130,
+              "aborted": 0
+            },
+            {
+              "episode": 13,
+              "success": 1,
+              "steps": 137,
+              "aborted": 0
+            },
+            {
+              "episode": 14,
+              "success": 1,
+              "steps": 126,
+              "aborted": 0
+            },
+            {
+              "episode": 15,
+              "success": 1,
+              "steps": 159,
+              "aborted": 0
+            },
+            {
+              "episode": 16,
+              "success": 1,
+              "steps": 135,
+              "aborted": 0
+            },
+            {
+              "episode": 17,
+              "success": 1,
+              "steps": 132,
+              "aborted": 0
+            },
+            {
+              "episode": 18,
+              "success": 1,
+              "steps": 136,
+              "aborted": 0
+            },
+            {
+              "episode": 19,
+              "success": 0,
+              "steps": 500,
               "aborted": 0
             }
           ]
