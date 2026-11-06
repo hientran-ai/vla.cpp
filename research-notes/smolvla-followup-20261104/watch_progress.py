@@ -42,7 +42,7 @@ try:
             lines.extend(['',str(log.relative_to(root))])
             try:lines.extend(log.read_text(errors='replace').replace('\r','\n').splitlines()[-10:])
             except OSError:lines.append('Đang đợi log...')
-        lines.extend(['','Chi tiết kết quả: REPORT_SMOLVLA.md và NOTES_SMOLVLA.md'])
+        lines.extend(['','Chi tiết kết quả: research-notes/smolvla/report.md và research-notes/smolvla/history.md'])
         print('\033[2J\033[H'+'\n'.join(lines),flush=True)
         time.sleep(2)
 except KeyboardInterrupt:

@@ -58,5 +58,5 @@ for name,model,flags in cases:
     (out/'results.json').write_text(json.dumps(results,indent=2)+'\n')
     print('SMOKE result',name,record['status'],record.get('successes'),'/2',flush=True)
     subprocess.run(['python3',str(base/'update_live_report.py')],check=True)
-    with (root/'NOTES_SMOLVLA.md').open('a') as notes:notes.write(f"\nSmoke {name}: {record['status']}, successes={record.get('successes')}/2, steps={record.get('steps')}; logs candidate-smokes/{name}. Không phải screening hoặc official.\n")
+    with (root/'research-notes/smolvla/history.md').open('a') as notes:notes.write(f"\nSmoke {name}: {record['status']}, successes={record.get('successes')}/2, steps={record.get('steps')}; logs candidate-smokes/{name}. Không phải screening hoặc official.\n")
 (out/'progress.json').write_text(json.dumps(dict(state='complete',completed=len(results),expected=len(cases)),indent=2)+'\n')

@@ -1,5 +1,7 @@
 # SmolVLA — tóm tắt kết quả
 
+[← Mục lục SmolVLA](README.md)
+
 Cập nhật ngày 06/11/2026. Checkpoint `vrfai/smolvla-libero-gguf`, RTX 3060 Laptop 6 GiB, WSL2.
 
 **Chọn flash-mm theo SR official quan sát:** 178/200 (89,0%), so với defaults 177/200 (88,5%). Chênh lệch một episode chưa chứng minh ưu thế thống kê; Q8 chưa có official200.
@@ -17,8 +19,8 @@ Hai batch latency trong bảng có control và cách chọn thống kê riêng. 
 
 Audit đã đối chiếu **90 CSV / 680 episode**, tất cả `aborted=0`; giữ riêng smoke, screening và official.
 
-- [Báo cáo đầy đủ theo sáu phần](REPORT_SMOLVLA.md)
-- [Bảng tối ưu và điều kiện đo](PART3_OPTIMIZATION.md)
-- [Kết quả từng task và audit](research-notes/smolvla-followup-20261104/TASK_RESULTS.md)
-- [Câu hỏi cần review](REVIEW_REQUESTS.md)
-- [Chỉ dẫn tài liệu, dữ liệu và script](research-notes/README.md)
+- [Báo cáo đầy đủ theo sáu phần](report.md)
+- [Bảng tối ưu và điều kiện đo](optimization.md)
+- [Kết quả từng task và audit](../smolvla-followup-20261104/TASK_RESULTS.md)
+- [Câu hỏi cần review](review.md)
+- [Chỉ dẫn tài liệu, dữ liệu và script](../README.md)

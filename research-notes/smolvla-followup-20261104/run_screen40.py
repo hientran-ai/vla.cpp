@@ -41,7 +41,7 @@ with (out/'server.log').open('w') as server_log:
             results.append(dict(task_id=task,episodes=4,successes=successes,steps=[int(r['steps']) for r in episodes],csv=str(path.relative_to(root))))
             data=progress('running')
             print('Completed task',task,f'{successes}/4; total {data["successes"]}/{data["completed_episodes"]}',flush=True)
-            with (root/'NOTES_SMOLVLA.md').open('a') as notes:
+            with (root/'research-notes/smolvla/history.md').open('a') as notes:
                 notes.write(f'\nScreen40 defaults: task {task} hoàn tất {successes}/4; tổng tạm thời {data["successes"]}/{data["completed_episodes"]}. Log screen40-defaults/task-{task}.log; chưa phải official SR.\n')
         data=progress('complete')
         data['screening_sr']=data['successes']/40

@@ -43,7 +43,7 @@ with (out/'server.log').open('w') as server_log:
             results.append(dict(task_id=task,episodes=20,successes=successes,steps=[int(r['steps']) for r in episodes],csv=str(path.relative_to(root))))
             data=progress('running')
             print('Completed task',task,f'{successes}/20; total {data["successes"]}/{data["completed_episodes"]}',flush=True)
-            with (root/'NOTES_SMOLVLA.md').open('a') as notes:
+            with (root/'research-notes/smolvla/history.md').open('a') as notes:
                 notes.write(f'\nOfficial200 defaults: task {task} hoàn tất {successes}/20; tổng tạm thời {data["successes"]}/{data["completed_episodes"]}. Log official200-defaults/task-{task}.log; SR tạm thời; chỉ chốt sau đủ200 episode.\n')
         data=progress('complete')
         data['official_sr']=data['successes']/200

@@ -33,4 +33,4 @@ python3 -m unittest discover -s research-notes/smolvla-pruning -p 'test_*.py'
 
 ## Kết quả chung
 
-Official flash-mm và lựa chọn cấu hình nằm trong [báo cáo chính](../../REPORT_SMOLVLA.md). Bảng này chỉ đánh giá pruning; không dùng kết quả runtime để suy ra hiệu quả pruning.
+Official flash-mm và lựa chọn cấu hình nằm trong [báo cáo chính](../smolvla/report.md). Bảng này chỉ đánh giá pruning; không dùng kết quả runtime để suy ra hiệu quả pruning.

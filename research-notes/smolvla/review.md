@@ -1,6 +1,8 @@
 # SmolVLA — các vấn đề cần review
 
-Cập nhật ngày 06/11/2026. Số liệu và kết luận chính ở [báo cáo](REPORT_SMOLVLA.md); [bản tóm tắt](SUBMISSION_SMOLVLA.md) dùng để đọc nhanh.
+[← Mục lục SmolVLA](README.md)
+
+Cập nhật ngày 06/11/2026. Số liệu và kết luận chính ở [báo cáo](report.md); [bản tóm tắt](summary.md) dùng để đọc nhanh.
 
 Flash-mm có SR official quan sát 178/200, defaults 177/200. Audit đã đối chiếu 90 CSV / 680 episode, không abort. Chưa có bằng chứng ưu thế thống kê, official Q8 hoặc độ ổn định qua nhiều seed.
 
@@ -19,9 +21,9 @@ Flash-mm có SR official quan sát 178/200, defaults 177/200. Audit đã đối 
 
 ## Bằng chứng để review
 
-- [Bảng theo task](research-notes/smolvla-followup-20261104/TASK_RESULTS.md): ID, steps, success, aborted; [audit JSON](research-notes/smolvla-followup-20261104/submission-audit.json) lưu hash và record từng episode.
-- [Audit Task 5](research-notes/task5-profiling/README.md): source anchors, timer, log, kernel/API/gap và giới hạn trace. Audit ngày 05/11 dùng artifact đã lưu, không đo GPU mới.
-- [Pruning](research-notes/smolvla-pruning/README.md): depth ablation, capture/CKA và giới hạn thực nghiệm.
-- [Phụ lục tính toán](CALCULATIONS_SMOLVLA.md): speedup, allocation, Wilson interval và dự toán có giả định.
+- [Bảng theo task](../smolvla-followup-20261104/TASK_RESULTS.md): ID, steps, success, aborted; [audit JSON](../smolvla-followup-20261104/submission-audit.json) lưu hash và record từng episode.
+- [Audit Task 5](../task5-profiling/README.md): source anchors, timer, log, kernel/API/gap và giới hạn trace. Audit ngày 05/11 dùng artifact đã lưu, không đo GPU mới.
+- [Pruning](../smolvla-pruning/README.md): depth ablation, capture/CKA và giới hạn thực nghiệm.
+- [Phụ lục tính toán](calculations.md): speedup, allocation, Wilson interval và dự toán có giả định.
 
-[Báo cáo chính](REPORT_SMOLVLA.md#kiểm-tra-lại-dữ-liệu) có lệnh audit/sinh lại tài liệu, không cần GPU. Audit dữ liệu không chứng nhận kernel correctness, môi trường portable hoặc khả năng tái hiện trajectory từng bit.
+[Báo cáo chính](report.md#kiểm-tra-lại-dữ-liệu) có lệnh audit/sinh lại tài liệu, không cần GPU. Audit dữ liệu không chứng nhận kernel correctness, môi trường portable hoặc khả năng tái hiện trajectory từng bit.

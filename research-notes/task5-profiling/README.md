@@ -2,7 +2,7 @@
 
 Ngày audit: 05/11/2026 (Asia/Bangkok). Commit tại lúc audit: `92d134a7557f4580f3b8c14042c1bad61c3f1d7c`.
 
-Audit source và artifact đã lưu ngày 04/11, không chạy benchmark hoặc CUDA test mới. GPU có server hoạt động tại lúc audit nên chưa rerun kiểm thử. Kết luận tổng thể cập nhật ở [báo cáo chính](../../REPORT_SMOLVLA.md).
+Audit source và artifact đã lưu ngày 04/11, không chạy benchmark hoặc CUDA test mới. GPU có server hoạt động tại lúc audit nên chưa rerun kiểm thử. Kết luận tổng thể cập nhật ở [báo cáo chính](../smolvla/report.md).
 
 ## Đọc theo thứ tự
 

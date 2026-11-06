@@ -204,4 +204,4 @@ Built on:
 
 ## SmolVLA research notes
 
-Local experiment results, evaluation data and reproduction commands: [research notes](research-notes/README.md).
+Reports and results: [SmolVLA research](research-notes/smolvla/README.md). Evaluation data and reproduction commands: [data index](research-notes/README.md).

@@ -1,10 +1,12 @@
 # Báo cáo thực nghiệm SmolVLA
 
+[← Mục lục SmolVLA](README.md)
+
 Cập nhật ngày 06/11/2026. Checkpoint: `vrfai/smolvla-libero-gguf`. Máy đo: RTX 3060 Laptop 6 GiB, WSL2; repo gốc tại commit `4a542ed3bfb8f330388aceb8926294a951156172`.
 
 **Lựa chọn hiện tại: flash-mm**, theo SR official quan sát cao nhất trong các cấu hình đã chạy đủ 200 episode. Kết quả hơn defaults một episode, chưa chứng minh ưu thế thống kê hoặc độ ổn định qua nhiều seed. Q8 chưa có official200.
 
-Đọc nhanh: [bản tóm tắt](SUBMISSION_SMOLVLA.md). Tra cứu: [sơ đồ tài liệu và dữ liệu](research-notes/README.md).
+Đọc nhanh: [bản tóm tắt](summary.md). Tra cứu: [sơ đồ tài liệu và dữ liệu](../README.md).
 
 ## 1. Cài đặt và kiểm thử
 
@@ -17,7 +19,7 @@ Cập nhật ngày 06/11/2026. Checkpoint: `vrfai/smolvla-libero-gguf`. Máy đo
 | `vla_predict_check` | Kiểm tra output trên input/noise cố định; action thực có 7 chiều, phần còn lại là padding |
 | `ctest` | 13/15 pass; `foldquant_cuda_op` và `fused_cuda_ops` fail bit-exact, chưa sửa hoặc rerun |
 
-Fused/unfused có max abs 0,000545874 trên harness đã lưu. LIBERO chạy được nhưng môi trường còn bảy xung đột dependency metadata. Lệnh và diễn biến kiểm thử nằm trong [nhật ký](NOTES_SMOLVLA.md#lệnh-đã-chạy-và-ý-nghĩa).
+Fused/unfused có max abs 0,000545874 trên harness đã lưu. LIBERO chạy được nhưng môi trường còn bảy xung đột dependency metadata. Lệnh và diễn biến kiểm thử nằm trong [nhật ký](history.md#lệnh-đã-chạy-và-ý-nghĩa).
 
 ## 2. Baseline
 
@@ -35,7 +37,7 @@ WSL trả N/A cho process resident VRAM. Allocation chỉ bao phần được tr
 
 ## 3. Tối ưu không train
 
-Đã đo 10 cấu hình runtime và sáu GGUF quantized Q8/Q5/Q4, có và không quantize vision. [Bảng tối ưu](PART3_OPTIMIZATION.md) lưu kích thước file, allocation, mean/p50/p90 và sai lệch action cho từng cấu hình.
+Đã đo 10 cấu hình runtime và sáu GGUF quantized Q8/Q5/Q4, có và không quantize vision. [Bảng tối ưu](optimization.md) lưu kích thước file, allocation, mean/p50/p90 và sai lệch action cho từng cấu hình.
 
 | Batch / cách chọn thống kê | Defaults mean | Flash-mm mean | Mức giảm |
 |---|---:|---:|---:|
@@ -55,7 +57,7 @@ Suite `libero_object`, task 0–9, `n_action_steps=1`, seed môi trường 42. S
 <!-- SMOLVLA_LIVE_START -->
 ### Kết quả từ manifest
 
-Bảng sinh bằng `update_live_report.py`; audit CSV và hash ở [TASK_RESULTS.md](research-notes/smolvla-followup-20261104/TASK_RESULTS.md).
+Bảng sinh bằng `update_live_report.py`; audit CSV và hash ở [TASK_RESULTS.md](../smolvla-followup-20261104/TASK_RESULTS.md).
 
 | Cấu hình / lượt đánh giá | Thành công | SR quan sát | Trạng thái |
 |---|---:|---:|---|
@@ -74,11 +76,11 @@ SR official quan sát cao nhất trong các bản đã hoàn tất 200 episode: 
 
 Smoke dùng 1 task × 2 episode; screening dùng 10 × 4; official dùng 10 × 20. Task 9 official defaults đã chạy lại đủ 20 episode sau timeout, loại toàn bộ lượt dở.
 
-[Audit và bảng theo task](research-notes/smolvla-followup-20261104/TASK_RESULTS.md) kiểm tra 90 CSV / 680 episode: 400 official, 160 screening runtime/quantization và 120 screening pruning. Tất cả các CSV được chọn có `aborted=0`; hash và record từng episode nằm trong [submission-audit.json](research-notes/smolvla-followup-20261104/submission-audit.json).
+[Audit và bảng theo task](../smolvla-followup-20261104/TASK_RESULTS.md) kiểm tra 90 CSV / 680 episode: 400 official, 160 screening runtime/quantization và 120 screening pruning. Tất cả các CSV được chọn có `aborted=0`; hash và record từng episode nằm trong [submission-audit.json](../smolvla-followup-20261104/submission-audit.json).
 
 ## 5. Kiến trúc và profiling
 
-[Kiến trúc và module timing](research-notes/smolvla-followup-20261104/ARCHITECTURE_AND_PROFILE.md) mô tả vision → connector → VLM → action expert và vòng denoise. [Audit Task 5](research-notes/task5-profiling/README.md) đối chiếu sáu benchmark log và hai SQLite node trace đã lưu.
+[Kiến trúc và module timing](../smolvla-followup-20261104/ARCHITECTURE_AND_PROFILE.md) mô tả vision → connector → VLM → action expert và vòng denoise. [Audit Task 5](../task5-profiling/README.md) đối chiếu sáu benchmark log và hai SQLite node trace đã lưu.
 
 Runtime-pair có trung vị mean 114,1 → 92,4 ms; p50 114,1 → 92,5 ms; p90 115,4 → 93,0 ms. Đây là trung vị thống kê của ba lượt, chưa phải percentile gộp 60 mẫu. Vision + connector wall time giảm 56,1 → 43,6 ms.
 
@@ -92,7 +94,7 @@ Cả hai trace cảnh báo `Not all CUDA events might have been collected.` và 
 
 Đã cắt layer thật và đo ba depth ablation: vision-tail-10, vision-spaced-10 và coupled-tail-30. Screening lần lượt đạt 0/40, 0/40 và 23/40; chưa chọn bản nào để triển khai. Smoke 0/2 trước đó là lượt riêng, không cộng vào screening.
 
-[Phương pháp và script](research-notes/smolvla-pruning/README.md) phân biệt depth ablation với CKA. Có tiện ích capture/CKA và kiểm thử synthetic; chưa có calibration thực, checkpoint CKA, finetuning hoặc SR cho CKA. Kết quả giảm module latency không tự chứng minh giữ chất lượng.
+[Phương pháp và script](../smolvla-pruning/README.md) phân biệt depth ablation với CKA. Có tiện ích capture/CKA và kiểm thử synthetic; chưa có calibration thực, checkpoint CKA, finetuning hoặc SR cho CKA. Kết quả giảm module latency không tự chứng minh giữ chất lượng.
 
 ## Những việc còn thiếu
 
@@ -105,7 +107,7 @@ Cả hai trace cảnh báo `Not all CUDA events might have been collected.` và 
 | CKA/CLP | Calibration riêng, chọn layer hợp lệ, finetuning và đánh giá mới |
 | Môi trường | Lock sạch, giải quyết bảy dependency conflicts; đo resident VRAM trên backend hỗ trợ |
 
-[Câu hỏi gửi review](REVIEW_REQUESTS.md) tập trung vào các giới hạn này. [Phụ lục tính toán](CALCULATIONS_SMOLVLA.md) lưu speedup, Wilson interval và các dự toán có nhãn; dự toán không thay thế kết quả official.
+[Câu hỏi gửi review](review.md) tập trung vào các giới hạn này. [Phụ lục tính toán](calculations.md) lưu speedup, Wilson interval và các dự toán có nhãn; dự toán không thay thế kết quả official.
 
 ## Kiểm tra lại dữ liệu
 

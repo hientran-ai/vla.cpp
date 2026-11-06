@@ -1,6 +1,8 @@
 # SmolVLA — nhật ký thực nghiệm
 
-Cập nhật trạng thái ngày 06/11/2026 (UTC+07). Các mục phía sau là nhật ký theo thời điểm; những dòng “chưa đo/chưa cài” cũ không đại diện cho hiện trạng. Phạm vi và kết luận hiện tại ở [REPORT_SMOLVLA.md](REPORT_SMOLVLA.md).
+[← Mục lục SmolVLA](README.md)
+
+Cập nhật trạng thái ngày 06/11/2026 (UTC+07). Các mục phía sau là nhật ký theo thời điểm; những dòng “chưa đo/chưa cài” cũ không đại diện cho hiện trạng. Phạm vi và kết luận hiện tại ở [REPORT_SMOLVLA.md](report.md).
 
 ## Checklist 6 yêu cầu (snapshot ngày 06/11/2026)
 
@@ -13,11 +15,11 @@ Cập nhật trạng thái ngày 06/11/2026 (UTC+07). Các mục phía sau là n
 | 5. Architecture / profile | Metadata checkpoint, sơ đồ, phase và nsys node traces | Connector/attention chưa tách riêng; GPU-active khác wall time |
 | 6. Pruning | Ba GGUF depth ablation; screening vision-tail 0/40, vision-spaced 0/40, coupled-tail 23/40 | Có tiện ích CKA/capture; chưa calibration thực, checkpoint CKA hoặc finetuning |
 
-Kiểm tra lại CSV cho đủ 680 episode (560 runtime/quantization và 120 pruning) và bảng theo task: [TASK_RESULTS.md](research-notes/smolvla-followup-20261104/TASK_RESULTS.md). Phần còn thiếu và tiêu chí hoàn tất: [REVIEW_REQUESTS.md](REVIEW_REQUESTS.md).
+Kiểm tra lại CSV cho đủ 680 episode (560 runtime/quantization và 120 pruning) và bảng theo task: [TASK_RESULTS.md](../smolvla-followup-20261104/TASK_RESULTS.md). Phần còn thiếu và tiêu chí hoàn tất: [REVIEW_REQUESTS.md](review.md).
 
 ## Nhật ký lịch sử
 
-Các mục dưới đây ghi lại trạng thái ở từng thời điểm. Đọc [báo cáo hiện tại](REPORT_SMOLVLA.md) để lấy kết luận cuối.
+Các mục dưới đây ghi lại trạng thái ở từng thời điểm. Đọc [báo cáo hiện tại](report.md) để lấy kết luận cuối.
 
 ## Nguyên văn mentor
 
@@ -170,7 +172,7 @@ Lưu kết quả ở `research-notes/smolvla-vram-20261104/`: profile-{1,2,3}.lo
 
 ## Báo cáo hiện trạng
 
-Đã tổng hợp báo cáo ngày 2026-11-04 tại [REPORT_SMOLVLA.md](REPORT_SMOLVLA.md), đối chiếu log baseline, ctest, interfaces và memory-summary.json. Lần lập báo cáo không chạy lại benchmark. Chặng 1 còn hai test fail; chặng 2 có latency và peak allocation CUDA với giới hạn NVML; chặng 3–6 chưa có kết quả đánh giá tương ứng.
+Đã tổng hợp báo cáo ngày 2026-11-04 tại [REPORT_SMOLVLA.md](report.md), đối chiếu log baseline, ctest, interfaces và memory-summary.json. Lần lập báo cáo không chạy lại benchmark. Chặng 1 còn hai test fail; chặng 2 có latency và peak allocation CUDA với giới hạn NVML; chặng 3–6 chưa có kết quả đánh giá tương ứng.
 
 
 ## Tiếp tục thực nghiệm và cài LIBERO (04/11/2026)

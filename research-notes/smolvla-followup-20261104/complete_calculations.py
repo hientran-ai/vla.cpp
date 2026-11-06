@@ -34,7 +34,7 @@ Baseline gốc mean 112,0 ms, p50 111,8 ms, p90 112,8 ms; peak traced allocation
 
 Giảm latency = 100×(1−T/T0), speedup = T0/T, giảm allocation = 100×(1−M/M0). Giá trị âm nghĩa là chậm hơn control. Runtime lấy từ bảng PART3; các số đầu vào đã làm tròn 0,1 ms nên kết quả chỉ có độ chính xác tương ứng.''']
 # Parse reviewed runtime table, avoiding use of the older 5-rep screen.
-text = (ROOT/'PART3_OPTIMIZATION.md').read_text()
+text = (ROOT/'research-notes/smolvla/optimization.md').read_text()
 rows=[]
 for line in text.split('## Quantization')[0].splitlines():
     c=[x.strip() for x in line.split('|')[1:-1]]
@@ -89,7 +89,7 @@ Kết luận task 6: đã implement hai cách chọn layer vision (tail/spaced) 
 
 ## Bằng chứng và cách đọc
 
-Tất cả đường dẫn dữ liệu tương đối dưới `research-notes/smolvla-followup-20261104/`: `candidate-bench/selected.json`, `memory-all/summary.json`, `candidate-checks/summary.json`, `candidate-smokes/results.json`, `pruning-summary.json`, `phase-suite/selected.json`, `kernel-phase-traces/*.boundaries.json`, `kernel-traces/*.summary.json`, các `screen40-*/result.json`. Bảng runtime và protocol: [PART3_OPTIMIZATION.md](PART3_OPTIMIZATION.md). Checklist và kết luận chính: [REPORT_SMOLVLA.md](REPORT_SMOLVLA.md). Các link ở phụ lục này tính từ gốc repo.
+Tất cả đường dẫn dữ liệu tương đối dưới `research-notes/smolvla-followup-20261104/`: `candidate-bench/selected.json`, `memory-all/summary.json`, `candidate-checks/summary.json`, `candidate-smokes/results.json`, `pruning-summary.json`, `phase-suite/selected.json`, `kernel-phase-traces/*.boundaries.json`, `kernel-traces/*.summary.json`, các `screen40-*/result.json`. Bảng runtime và protocol: [Bảng tối ưu](optimization.md). Checklist và kết luận chính: [Báo cáo chính](report.md). Các link trong phụ lục tính từ thư mục tài liệu này; đường dẫn dữ liệu và lệnh chạy tính từ gốc repo.
 ''')
-(ROOT/'CALCULATIONS_SMOLVLA.md').write_text('\n\n'.join(out))
-print('Wrote CALCULATIONS_SMOLVLA.md')
+(ROOT/'research-notes/smolvla/calculations.md').write_text('\n\n'.join(out))
+print('Wrote research-notes/smolvla/calculations.md')

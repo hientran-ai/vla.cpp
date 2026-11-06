@@ -23,7 +23,7 @@ def main():
     ]
     lines = [START, '### Kết quả từ manifest', '',
              'Bảng sinh bằng `update_live_report.py`; audit CSV và hash ở '
-             '[TASK_RESULTS.md](research-notes/smolvla-followup-20261104/TASK_RESULTS.md).', '',
+             '[TASK_RESULTS.md](../smolvla-followup-20261104/TASK_RESULTS.md).', '',
              '| Cấu hình / lượt đánh giá | Thành công | SR quan sát | Trạng thái |',
              '|---|---:|---:|---|']
     official = []
@@ -46,7 +46,7 @@ def main():
                   'Chưa chứng minh ưu thế thống kê; hai bản Q8 và repeated-seed chưa có official.']
     lines += [END]
     block = '\n'.join(lines) + '\n'
-    path = ROOT / 'REPORT_SMOLVLA.md'
+    path = ROOT / 'research-notes/smolvla/report.md'
     content = path.read_text()
     pattern = re.escape(START) + r'.*?' + re.escape(END) + r'\n?'
     if re.search(pattern, content, re.S):
