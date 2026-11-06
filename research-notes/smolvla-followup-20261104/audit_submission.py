@@ -16,12 +16,14 @@ def main():
     results['official-defaults'] = audit(
         'official-defaults', DATA / 'official200-defaults', 20, 'official_sr')
     results['official-flash-mm'] = audit('official-flash-mm', DATA / 'official200-flash-mm', 20, 'official_sr')
+    for name in ['smolvla-vision-tail-10', 'smolvla-vision-spaced-10', 'smolvla-coupled-tail-30']:
+        results[name] = audit(name, DATA / 'screen40-variants' / name)
     # The manifest selects the recovered task 9, excluding all interrupted attempts.
-    require(sum(r['episodes'] for r in results.values()) == 560, 'episode total')
+    require(sum(r['episodes'] for r in results.values()) == 680, 'episode total')
     report = {
         'state': 'verified',
         'scope': 'Final manifest CSVs only; no video, kernel, environment or model-quality certification',
-        'episodes': 560,
+        'episodes': 680,
         'results': results,
     }
     (DATA / 'submission-audit.json').write_text(json.dumps(report, indent=2) + '\n')
@@ -29,12 +31,12 @@ def main():
         '# Đối chiếu kết quả LIBERO theo task',
         '',
         'Sinh từ CSV bằng `python3 research-notes/smolvla-followup-20261104/audit_submission.py` tại gốc repo. '
-        'Kiểm tra 560 episode: 200 official defaults, 200 official flash-mm, 40 screening defaults và 120 screening biến thể. '
+        'Kiểm tra 680 episode: 200 official defaults, 200 official flash-mm, 40 screening defaults, 120 screening runtime/quantization và 120 screening pruning (90 CSV). '
         'Kiểm tra task/episode ID, số bước, success, aborted và SR so với manifest; lưu SHA256 từng CSV trong '
         '[submission-audit.json](submission-audit.json). Không chạy inference mới hoặc kiểm tra lại video.',
         '',
-        '| Task | Defaults /4 | Flash-mm /4 | Q8-lm /4 | Q8-vision /4 | Official defaults /20 | Official flash-mm /20 |',
-        '|---|---:|---:|---:|---:|---:|---:|',
+        '| Task | Defaults /4 | Flash-mm /4 | Q8-lm /4 | Q8-vision /4 | Official defaults /20 | Official flash-mm /20 | Vision-tail /4 | Vision-spaced /4 | Coupled-tail /4 |',
+        '|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|',
     ]
     for task_id in range(10):
         values = [str(r['tasks'][task_id]['successes']) for r in results.values()]
@@ -48,7 +50,7 @@ def main():
         '',
         'Bảng giúp xác định task cần xem lại video. Chênh lệch thành công không xác định nguyên nhân '
         'do quantization, attention hay noise. Cùng episode ID và seed môi trường chưa tạo thành cặp '
-        'đối chứng cùng noise; không dùng bảng này để kiểm định ghép cặp hoặc chọn cấu hình trên tập đánh giá.',
+        'đối chứng cùng noise; không dùng bảng này để kiểm định ghép cặp hoặc điều chỉnh layer/cấu hình trên tập đánh giá. Lựa chọn flash-mm chỉ mô tả SR official cao nhất đã quan sát, không chứng minh khái quát hóa.',
         '',
         'Chỉ so các cột screening với nhau khi mô tả chênh lệch quan sát. Cột official có số episode '
         'khác và là một lượt chạy riêng; không lấy 177/200 làm control cho screening biến thể.',
@@ -57,7 +59,7 @@ def main():
     (DATA / 'TASK_RESULTS.md').write_text('\n'.join(lines))
     for name, result in results.items():
         print(f"{name}: {result['successes']}/{result['episodes']}, aborted={result['aborted']}")
-    print('Verified 560 episodes; wrote submission-audit.json and TASK_RESULTS.md.')
+    print('Verified 680 episodes; wrote submission-audit.json and TASK_RESULTS.md.')
 
 
 if __name__ == '__main__':

@@ -54,7 +54,7 @@ Hai CUDA tests bit-exact còn fail; baseline giữ defaults theo lựa chọn ng
 - Runtime nhanh nhất trong tập thử: steps-3, mean 79.2ms; giảm 23.85% so với control cùng batch. Cần đọc kèm độ lệch action; không xem giảm solver steps là miễn phí chất lượng.
 - File runtime không đổi kích thước vì dùng cùng GGUF; resident weight dtype thay đổi trong bộ nhớ.
 - Quantization giảm rõ kích thước và allocation; latency cần so với defaults của chính candidate-bench. Không suy ra tốc độ chỉ từ số bit.
-- Output synthetic không chứng minh giữ khả năng điều khiển. Phần3 hoàn tất phép đo, chưa chốt cấu hình triển khai theo SR.
+- Output synthetic không chứng minh giữ khả năng điều khiển. Phần3 hoàn tất phép đo. Flash-mm được chọn theo SR official quan sát: 178/200 (89,0%), so với defaults 177/200 (88,5%); chênh lệch 1 episode chưa chứng minh ưu thế thống kê. Official hai bản Q8 và repeated-seed chưa có.
 
 Telemetry bổ sung: 120 mẫu, nhiệt độ ghi nhận 53–72°C; không phủ toàn bộ batch và không đủ để kết luận có/không throttle. Raw: `part3-runtime/telemetry.jsonl`.
 

@@ -87,7 +87,7 @@ CLP dùng CKA của hidden states để chọn các tầng gần nhau có biểu
 
 Các hướng đã thử bằng depth ablation: (1) depth ablation có cấu trúc ở vision; (2) depth ablation có cấu trúc ở VLM/action expert, bảo toàn mapping K/V và loại SA/CA. Nếu chọn CKA-guided, cần calibration data/hidden states thật, không gọi random layer dropping là CLP. Không chọn tầng trên chính tập evaluation rồi báo SR như một kiểm tra độc lập. Zero weights đơn thuần chưa làm dense GEMM nhỏ đi.
 
-Mỗi biến thể cần sửa graph/định dạng phù hợp, kiểm tra shape/output, đo latency module thật, smoke riêng; sau đó screening40 và official cho ứng viên được chọn. Đã có ba GGUF pruned và số đo module; cả ba smoke0/2, chưa có ứng viên đạt chất lượng.
+Mỗi biến thể cần sửa graph/định dạng phù hợp, kiểm tra shape/output, đo latency module thật, smoke riêng; sau đó screening40 và official cho ứng viên được chọn. Đã có ba GGUF pruned và số đo module. Screening pruning: vision-tail-10 0/40, vision-spaced-10 0/40, coupled-tail-30 23/40 (57,5%); đây là các lượt riêng với smoke 0/2 trước đó. Có tiện ích CKA/capture và kiểm thử synthetic, chưa có calibration thực, checkpoint CKA hoặc finetuning.
 
 ### Đối chiếu tài liệu NVIDIA về WSL2
 
@@ -113,9 +113,9 @@ Kế hoạch trace kernel dùng node và capture-range=cudaProfilerApi: load mod
 | vision-spaced-10 |43.740|14.920|36.591|
 | coupled-tail-30 |52.722|14.095|34.531|
 
-Attribution theo vision graph và biên D2D KV copy từ source, kiểm tra đủ kernel không thiếu/trùng. Cách ban đầu đếm80graph launch thất bại do có direct launches; log lỗi được giữ. Cách sửa dùng1280KVcopies mặc định hoặc1200 cho30layer; xem summarize_phase_boundaries.py và kernel-phase-traces/*.boundaries.json. Active time loại khoảng trống, không phải wall time riêng module.
+Attribution theo vision graph và biên D2D KV copy từ source, kiểm tra không thiếu/trùng trong các kernel đã ghi nhận; không chứng minh trace thu đủ mọi CUDA event. Cách ban đầu đếm80graph launch thất bại do có direct launches; log lỗi được giữ. Cách sửa dùng1280KVcopies mặc định hoặc1200 cho30layer; xem summarize_phase_boundaries.py và kernel-phase-traces/*.boundaries.json. Active time loại khoảng trống, không phải wall time riêng module.
 
-Trace default path: tổng duration kernel2260,227ms →1733,185ms (flash-mm); GEMM theo tên58,30% →51,85%; gaps trong traced GPU activity10,54% →9,13%. GEMM gồm cả phép nhân attention; gaps chưa chứng minh toàn GPU rảnh hoặc nguyên nhân CPU. Raw kernel-traces/*.summary.json. Không gọi flash-mm là best theo SR; mới là ứng viên runtime nhanh.
+Trace default path: tổng duration kernel2260,227ms →1733,185ms (flash-mm); GEMM theo tên58,30% →51,85%; gaps trong traced GPU activity10,54% →9,13%. GEMM gồm cả phép nhân attention; gaps chưa chứng minh toàn GPU rảnh hoặc nguyên nhân CPU. Raw kernel-traces/*.summary.json. Flash-mm được chọn theo SR official quan sát: 178/200 (89,0%), so với defaults 177/200 (88,5%); chênh lệch 1 episode chưa chứng minh ưu thế thống kê. Official hai bản Q8 và repeated-seed chưa có.
 
 
 ## Audit Task 5 ngày 05/11/2026 — kết luận cập nhật
@@ -126,4 +126,4 @@ Audit sáu log runtime-full-pair khớp runs.json. Trung vị ba run means 114,1
 
 Cả hai trace có cảnh báo completeness nêu trên, hardware tracing unsupported nên dùng legacy software tracing, Unified Memory không trace được. Không có diagnostic lost/drop không chứng minh đầy đủ. Phase boundary analyzer pass kiểm tra1280KVcopies và bao phủ recorded kernels, không bảo đảm capture đã có mọi event. CUDA API StreamSynchronize duration overlap GPU execution, không cộng thêm với kernel duration thành overhead. Chưa xác định launch overhead độc lập hay nguyên nhân từng gap.
 
-Kiến trúc, tensor shapes/source anchors, giải thích các khái niệm, evidence SHA256 và reproduction được tập hợp trong [phụ lục Task 5](../task5-profiling/README.md). Flash-mm screening35/40 so defaults38/40 chưa chứng minh best chất lượng. Hai CUDA tests chưa rerun do GPU có server hoạt động; không tuyên bố Task5 hoàn tất vô điều kiện.
+Kiến trúc, tensor shapes/source anchors, giải thích các khái niệm, evidence SHA256 và reproduction được tập hợp trong [phụ lục Task 5](../task5-profiling/README.md). Flash-mm official178/200 so defaults177/200 là SR quan sát cao nhất trong các bản đã chạy đủ200episode; chưa chứng minh ưu thế thống kê. Hai bản Q8 chưa có official200. Hai CUDA tests chưa rerun do GPU có server hoạt động; không tuyên bố Task5 hoàn tất vô điều kiện.

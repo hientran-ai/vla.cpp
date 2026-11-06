@@ -1,6 +1,6 @@
 # SmolVLA — nhật ký thực nghiệm
 
-Cập nhật trạng thái ngày 05/11/2026 (UTC+07). Các mục phía sau là nhật ký theo thời điểm; những dòng “chưa đo/chưa cài” cũ không đại diện cho hiện trạng. Phạm vi và kết luận hiện tại ở [REPORT_SMOLVLA.md](REPORT_SMOLVLA.md).
+Cập nhật trạng thái ngày 06/11/2026 (UTC+07). Các mục phía sau là nhật ký theo thời điểm; những dòng “chưa đo/chưa cài” cũ không đại diện cho hiện trạng. Phạm vi và kết luận hiện tại ở [REPORT_SMOLVLA.md](REPORT_SMOLVLA.md).
 
 ## Checklist 6 yêu cầu (trạng thái hiện tại)
 
@@ -9,11 +9,11 @@ Cập nhật trạng thái ngày 05/11/2026 (UTC+07). Các mục phía sau là n
 | 1. Cài đặt và chạy thử | CUDA arch86; CLI/server/binding/predict_check hoạt động | Tests 13/15; hai lỗi bit-exact tạm hoãn |
 | 2. Baseline | Mean/p50/p90; nsys peak allocation 1912,47 MiB | Process resident VRAM N/A; allocation không bao hết context/driver |
 | 3. Runtime flags / quantization | 10 cấu hình runtime; Q8/Q5/Q4 có/không vision; file, latency, allocation, output delta | Chưa xác nhận giữ SR; chỉ ba ứng viên có screening |
-| 4. LIBERO SR | Defaults official 177/200; screening defaults 38/40, flash-mm 35/40, hai Q8 36/40 | Official biến thể và repeated-seed chưa chạy, ngoài phạm vi chốt đợt này |
+| 4. LIBERO SR | Defaults official 177/200; flash-mm official 178/200; screening defaults 38/40, flash-mm 35/40, hai Q8 36/40 | Official hai bản Q8 và repeated-seed chưa chạy; chọn flash-mm theo SR official quan sát |
 | 5. Architecture / profile | Metadata checkpoint, sơ đồ, phase và nsys node traces | Connector/attention chưa tách riêng; GPU-active khác wall time |
-| 6. Pruning | Ba GGUF depth ablation, kiểm tra output, latency module và smoke | Cả ba smoke 0/2; chưa implement CLP/CKA hoặc finetuning |
+| 6. Pruning | Ba GGUF depth ablation; screening vision-tail 0/40, vision-spaced 0/40, coupled-tail 23/40 | Có tiện ích CKA/capture; chưa calibration thực, checkpoint CKA hoặc finetuning |
 
-Kiểm tra lại CSV cho đủ 360 episode và bảng theo task: [TASK_RESULTS.md](research-notes/smolvla-followup-20261104/TASK_RESULTS.md). Phần còn thiếu và tiêu chí hoàn tất: [REVIEW_REQUESTS.md](REVIEW_REQUESTS.md).
+Kiểm tra lại CSV cho đủ 680 episode (560 runtime/quantization và 120 pruning) và bảng theo task: [TASK_RESULTS.md](research-notes/smolvla-followup-20261104/TASK_RESULTS.md). Phần còn thiếu và tiêu chí hoàn tất: [REVIEW_REQUESTS.md](REVIEW_REQUESTS.md).
 
 ## Nguyên văn mentor
 
@@ -576,3 +576,5 @@ Official200 flash-mm: task 9 hoàn tất 19/20; tổng tạm thời 178/200. Log
 
 
 Cập nhật chốt báo cáo ngày 06/11/2026: Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200. Đối chiếu CSV official flash-mm và cập nhật báo cáo, phụ lục tính toán, audit theo task; không chạy inference mới.
+
+Đồng bộ nội dung ngày 06/11/2026: audit đủ 90 CSV/680 episode gồm pruning; cập nhật checklist/review/profile và script sinh báo cáo, sửa link tài liệu đã xóa. Kiểm tra trong thư mục tạm không model/GPU và chạy lại bốn generator cho đầu ra không đổi. Chi tiết: [SYNC_REVIEW_SMOLVLA.md](SYNC_REVIEW_SMOLVLA.md). Giữ nhật ký lịch sử và các giới hạn thực nghiệm.

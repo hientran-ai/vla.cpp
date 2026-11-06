@@ -1,7 +1,7 @@
 {
   "state": "verified",
   "scope": "Final manifest CSVs only; no video, kernel, environment or model-quality certification",
-  "episodes": 560,
+  "episodes": 680,
   "results": {
     "defaults": {
       "episodes": 40,
@@ -1399,7 +1399,7 @@
       "episodes": 200,
       "successes": 177,
       "aborted": 0,
-      "screening_sr": 0.885,
+      "official_sr": 0.885,
       "tasks": [
         {
           "task_id": 0,
@@ -2707,7 +2707,7 @@
       "episodes": 200,
       "successes": 178,
       "aborted": 0,
-      "screening_sr": 0.89,
+      "official_sr": 0.89,
       "tasks": [
         {
           "task_id": 0,
@@ -4005,6 +4005,1050 @@
               "episode": 19,
               "success": 0,
               "steps": 500,
+              "aborted": 0
+            }
+          ]
+        }
+      ]
+    },
+    "smolvla-vision-tail-10": {
+      "episodes": 40,
+      "successes": 0,
+      "aborted": 0,
+      "screening_sr": 0.0,
+      "tasks": [
+        {
+          "task_id": 0,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_0/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 1,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_1/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 2,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_2/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 3,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_3/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 4,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_4/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 5,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_5/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 6,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_6/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 7,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_7/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 8,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_8/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 9,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-tail-10/outputs/smolvla/libero_object/task_9/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        }
+      ]
+    },
+    "smolvla-vision-spaced-10": {
+      "episodes": 40,
+      "successes": 0,
+      "aborted": 0,
+      "screening_sr": 0.0,
+      "tasks": [
+        {
+          "task_id": 0,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_0/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 1,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_1/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 2,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_2/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 3,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_3/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 4,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_4/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 5,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_5/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 6,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_6/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 7,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_7/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 8,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_8/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 9,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-vision-spaced-10/outputs/smolvla/libero_object/task_9/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        }
+      ]
+    },
+    "smolvla-coupled-tail-30": {
+      "episodes": 40,
+      "successes": 23,
+      "aborted": 0,
+      "screening_sr": 0.575,
+      "tasks": [
+        {
+          "task_id": 0,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_0/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 1,
+          "episodes": 4,
+          "successes": 0,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_1/episodes.csv",
+          "csv_sha256": "eda32630d66c8a6880f184fcd5cef989ce42cba666348a2f1ba8bd01c0c779b1",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 2,
+          "episodes": 4,
+          "successes": 3,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_2/episodes.csv",
+          "csv_sha256": "630e23f983ed29666881f39d3396a0ca79aa0099afbde3e211375a84a6703dd2",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 144,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 138,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 136,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 3,
+          "episodes": 4,
+          "successes": 3,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_3/episodes.csv",
+          "csv_sha256": "4397acd972b90a4e44d3fbc77794ed792762bdcf70658e39a7426c7c29bd3e77",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 143,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 143,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 148,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 4,
+          "episodes": 4,
+          "successes": 2,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_4/episodes.csv",
+          "csv_sha256": "2fa5f1db50581c0c6eff62f88b93ddb304c89efc893c831e67e2aea850b24d6a",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 177,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 154,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 5,
+          "episodes": 4,
+          "successes": 2,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_5/episodes.csv",
+          "csv_sha256": "1ebe1f9a7b91344642fd4edd1f433924e5a622ae2c42460e0a2132919c9e151a",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 155,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 296,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 6,
+          "episodes": 4,
+          "successes": 4,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_6/episodes.csv",
+          "csv_sha256": "3c7cc46a3d3490f4e3e46560a6ffff3d90424f2d27f222eef7ccc3340631701b",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 165,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 184,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 185,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 158,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 7,
+          "episodes": 4,
+          "successes": 2,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_7/episodes.csv",
+          "csv_sha256": "7d4583996f3e7e64a8af64ce175353bc96fa33d8989138f195deef10d243b872",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 165,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 155,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 8,
+          "episodes": 4,
+          "successes": 4,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_8/episodes.csv",
+          "csv_sha256": "6d53874fe1ec16bb960c484faa30bbcd27f5accf56707ca80f2971edf219d88f",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 187,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 1,
+              "steps": 185,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 180,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 249,
+              "aborted": 0
+            }
+          ]
+        },
+        {
+          "task_id": 9,
+          "episodes": 4,
+          "successes": 3,
+          "aborted": 0,
+          "csv": "research-notes/smolvla-followup-20261104/screen40-variants/smolvla-coupled-tail-30/outputs/smolvla/libero_object/task_9/episodes.csv",
+          "csv_sha256": "7cd965c76407e937693d99c7a7a3e160f3c62ca2918b7391ad460a12e70e56fb",
+          "episode_records": [
+            {
+              "episode": 0,
+              "success": 1,
+              "steps": 140,
+              "aborted": 0
+            },
+            {
+              "episode": 1,
+              "success": 0,
+              "steps": 500,
+              "aborted": 0
+            },
+            {
+              "episode": 2,
+              "success": 1,
+              "steps": 155,
+              "aborted": 0
+            },
+            {
+              "episode": 3,
+              "success": 1,
+              "steps": 162,
               "aborted": 0
             }
           ]

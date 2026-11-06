@@ -14,7 +14,7 @@ Báo cáo này kiểm tra source hiện tại và tái phân tích artifact ngà
 6. [Limitations và các phần xin review](limitations.md).
 7. [Giải thích kiến thức](explanation.md) và [tái lập](reproduction.md).
 
-Kết luận được hỗ trợ: flash-mm là ứng viên runtime nhanh hơn defaults trên protocol đã lưu; trung vị mean ba lượt 114,1 → 92,4 ms (−19,0%). Chưa xác nhận tốt nhất về chất lượng: LIBERO screening 35/40 so với defaults 38/40. Giữ 10 bước denoise khi so sánh. `steps-3` nhanh nhưng thay đổi solver và sai khác action lớn nên không đưa vào cặp đối chứng giữ cùng số bước.
+Kết luận được hỗ trợ: flash-mm là ứng viên runtime nhanh hơn defaults trên protocol đã lưu; trung vị mean ba lượt 114,1 → 92,4 ms (−19,0%). Cập nhật 06/11: flash-mm official 178/200 so với defaults177/200, được chọn theo SR quan sát; chưa chứng minh ưu thế thống kê. Hai bản Q8 chưa có official200. Giữ 10 bước denoise khi so sánh. `steps-3` nhanh nhưng thay đổi solver và sai khác action lớn nên không đưa vào cặp đối chứng giữ cùng số bước.
 
 Cảnh báo quan trọng: cả hai node trace có diagnostic `Not all CUDA events might have been collected.` Các tổng bên dưới đúng với sự kiện đã lưu, chưa chứng minh coverage đầy đủ. Không gọi gap là toàn GPU idle, không gọi GEMM là module VLM.
 
@@ -25,7 +25,7 @@ Ubuntu 26.04.1, WSL2 kernel 6.18.33.2; RTX 3060 Laptop 6 GiB, compute capability
 Model `/home/doris/.cache/vla/vrfai/smolvla-libero-gguf/smolvla-libero.gguf`, SHA256 hiện tại khớp lịch sử:
 `6fb2d475c98b4c2cef3e27c4eff4e67b483740cbf983fff320a3b8a5e5f74fe8`.
 
-Repo đã dirty trước khi làm: NOTES_SMOLVLA.md sửa; off.txt, on.txt và các artifact nghiên cứu untracked. Chỉ thêm thư mục báo cáo này. Không sửa source/model/build flags, không commit/push.
+Ghi nhận lịch sử tại lúc audit 05/11 (không phải trạng thái Git hiện tại): repo đã dirty trước khi làm: NOTES_SMOLVLA.md sửa; off.txt, on.txt và các artifact nghiên cứu untracked. Chỉ thêm thư mục báo cáo này. Không sửa source/model/build flags, không commit/push.
 
 ## Evidence
 

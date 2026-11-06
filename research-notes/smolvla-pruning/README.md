@@ -12,7 +12,7 @@ Mỗi cấu hình: libero_object, 10 task × 4 episode, seed môi trường 42,
 n_action_steps=1; noise server ngẫu nhiên. Đã đối chiếu 30 CSV: 120 episode,
 không abort. Protocol và result từng cấu hình ở
 `../smolvla-followup-20261104/screen40-variants/`.
-CSV/video gốc thuộc outputs cục bộ, không đưa lên Git.
+30 CSV screening pruning đã lưu trong Git để audit; video và log vẫn là artifact cục bộ.
 Defaults screening 38/40; chưa chứng minh pruning giữ chất lượng.
 Smoke 0/2 trước đó và screening mới là các lượt riêng, không cộng mẫu số.
 

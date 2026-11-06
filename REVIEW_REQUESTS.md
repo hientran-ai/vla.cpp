@@ -1,10 +1,10 @@
 # Các phần xin review
 
-Cập nhật ngày 05/11/2026 (UTC+07). Tài liệu chính: [REPORT_SMOLVLA.md](REPORT_SMOLVLA.md), [bảng phần3](PART3_OPTIMIZATION.md).
+Cập nhật ngày 06/11/2026 (UTC+07). Tài liệu chính: [REPORT_SMOLVLA.md](REPORT_SMOLVLA.md), [bảng phần3](PART3_OPTIMIZATION.md).
 
 ## Các vấn đề thực nghiệm còn mở
 
-Nhờ người review góp ý về phương pháp đo, cách diễn giải kết quả và hướng nghiên cứu trong các phần dưới đây. Hai lỗi CUDA vẫn được công bố: 13/15 tests pass. Official flash-mm đã được khởi chạy theo yêu cầu bổ sung; chưa đưa SR cuối vào tài liệu này.
+Nhờ người review góp ý về phương pháp đo, cách diễn giải kết quả và hướng nghiên cứu trong các phần dưới đây. Hai lỗi CUDA vẫn được công bố: 13/15 tests pass. Flash-mm được chọn theo SR official quan sát: 178/200 (89,0%), so với defaults 177/200 (88,5%); chênh lệch 1 episode chưa chứng minh ưu thế thống kê. Official hai bản Q8 và repeated-seed chưa có.
 
 | Vấn đề | Bằng chứng / giới hạn | Câu hỏi review |
 |---|---|---|
@@ -21,7 +21,7 @@ Nhờ người review góp ý về phương pháp đo, cách diễn giải kết
 
 ## Dữ liệu và trạng thái đánh giá
 
-Kết quả và script tái lập được lưu trong nhánh này. Screening đã hoàn tất 120/120 episode: flash-mm 35/40, Q8-lm 36/40, Q8-vision 36/40, so với defaults 38/40. Official flash-mm đã khởi chạy; official hai bản Q8 và repeated-seed chưa có. Chưa kết luận giữ SR. Kết quả đã đối chiếu CSV bằng `research-notes/smolvla-followup-20261104/audit_screening.py`.
+Kết quả và script tái lập được lưu trong nhánh này. Screening đã hoàn tất 120/120 episode: flash-mm 35/40, Q8-lm 36/40, Q8-vision 36/40, so với defaults 38/40. Flash-mm được chọn theo SR official quan sát: 178/200 (89,0%), so với defaults 177/200 (88,5%); chênh lệch 1 episode chưa chứng minh ưu thế thống kê. Official hai bản Q8 và repeated-seed chưa có. Kết quả đã đối chiếu CSV bằng `research-notes/smolvla-followup-20261104/audit_screening.py`.
 
 ## Rà soát phần thiếu và tiêu chí hoàn tất
 
@@ -32,7 +32,7 @@ Kết quả và script tái lập được lưu trong nhánh này. Screening đ�
 | 1. Cài đặt | Thống nhất trạng thái 13/15 giữa checklist và báo cáo | Sửa hai test CUDA, chạy lại theo hợp đồng hiện tại; chưa thực hiện vì đang tạm hoãn |
 | 2. Baseline | Giữ rõ allocation và resident VRAM; công bố điều kiện đo và giới hạn telemetry | Đo process resident memory trên môi trường hỗ trợ nếu yêu cầu đúng chỉ số này |
 | 3. Tối ưu | Đã có bảng bốn chỉ tiêu, control riêng và tính speedup cùng batch | Kiểm tra chất lượng cho cấu hình định chọn; không suy SR từ synthetic delta |
-| 4. LIBERO | Audit cả official và screening; thêm bảng thành công từng task | Defaults đã có official 177/200; flash-mm đang được đánh giá bổ sung, chưa có kết quả cuối trong tài liệu này |
+| 4. LIBERO | Audit cả official và screening; thêm bảng thành công từng task | Defaults official 177/200 và flash-mm official 178/200; official hai bản Q8 và repeated-seed còn thiếu |
 | 5. Profile | Phân biệt module GPU-active, phase wall và default path | Connector riêng, attention riêng và phân tích nguyên nhân gap chưa hoàn tất |
 | 6. Pruning | Có ba depth ablation và kết quả âm; phân biệt rõ với CLP | Nếu yêu cầu tái hiện phương pháp paper: cần activation calibration, CKA, mapping hợp lệ và quy trình finetuning/đánh giá tương ứng |
 
@@ -42,7 +42,7 @@ Audit CPU ngày 05/11 đã parse khớp sáu raw latency log, tính lại tổng
 
 Điểm cần review thêm: cả hai trace báo `Not all CUDA events might have been collected.`; không thể chứng minh completeness chỉ vì không có chuỗi lost/drop. Trace dùng legacy software instrumentation; Unified Memory không trace được. Gap 10,54%/9,13% chỉ thuộc recorded target-process activity, không whole-GPU idle hoặc CPU bottleneck đã xác nhận. Timer wall có backend synchronization; PHASE đổi graph/padding nên không chia trực tiếp baseline mặc định thành module times.
 
-GPU đang có server dùng tại lúc audit nên chưa đo lại hoặc rerun hai CUDA tests. File LastTestsFailed lịch sử vẫn liệt kê foldquant_cuda_op và fused_cuda_ops; không đồng nghĩa đã tái hiện fail hôm nay. Chưa xác minh source/binary provenance bằng rebuild, defaults được chọn theo SR quan sát, chưa có official so sánh cho biến thể, exact connector/action-expert-only/attention timing hoặc resident process VRAM.
+GPU đang có server dùng tại lúc audit nên chưa đo lại hoặc rerun hai CUDA tests. File LastTestsFailed lịch sử vẫn liệt kê foldquant_cuda_op và fused_cuda_ops; không đồng nghĩa đã tái hiện fail hôm nay. Chưa xác minh source/binary provenance bằng rebuild, exact connector/action-expert-only/attention timing hoặc resident process VRAM. Flash-mm được chọn theo SR official quan sát: 178/200 (89,0%), so với defaults 177/200 (88,5%); chênh lệch 1 episode chưa chứng minh ưu thế thống kê. Official hai bản Q8 và repeated-seed chưa có.
 
 [Review Task 5 chi tiết](research-notes/task5-profiling/limitations.md) và [script audit CPU](research-notes/task5-profiling/audit_evidence.py). Đây là báo cáo có thể review trên bằng chứng hiện có, chưa xác nhận hoàn tất toàn bộ yêu cầu thực nghiệm.
 
@@ -55,6 +55,6 @@ python3 research-notes/smolvla-followup-20261104/audit_submission.py
 python3 research-notes/smolvla-followup-20261104/complete_calculations.py
 ```
 
-Lệnh đầu đối chiếu 50 CSV của 360 episode với manifest cuối: task/episode ID, số bước, success, aborted và SR; lưu hash từng CSV trong [submission-audit.json](research-notes/smolvla-followup-20261104/submission-audit.json), sinh [bảng từng task](research-notes/smolvla-followup-20261104/TASK_RESULTS.md). Chỉ dùng task 9 official từ đường dẫn recovery đã được chọn, không cộng lượt dở. Lệnh thứ hai sinh lại phụ lục tính toán. Cần có các CSV cục bộ theo đường dẫn manifest; lệnh không tự tải model, tạo môi trường hoặc sinh episode thiếu.
+Lệnh đầu đối chiếu 90 CSV của 680 episode (400 official, 160 screening runtime/quantization và 120 screening pruning) với manifest cuối: task/episode ID, số bước, success, aborted và SR; lưu hash từng CSV trong [submission-audit.json](research-notes/smolvla-followup-20261104/submission-audit.json), sinh [bảng từng task](research-notes/smolvla-followup-20261104/TASK_RESULTS.md). Chỉ dùng task 9 official defaults từ đường dẫn recovery đã được chọn, không cộng lượt dở. Lệnh thứ hai sinh lại phụ lục tính toán. Cần có các CSV cục bộ theo đường dẫn manifest; lệnh không tự tải model, tạo môi trường hoặc sinh episode thiếu.
 
 Audit này không xác nhận video, đúng nội dung instruction, kernel correctness hoặc môi trường portable. Cùng seed môi trường và episode ID chưa bảo đảm cùng noise; bảng từng task chỉ mô tả kết quả quan sát, chưa xác định nguyên nhân thất bại hay chứng minh non-inferiority.

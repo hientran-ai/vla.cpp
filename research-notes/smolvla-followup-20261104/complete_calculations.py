@@ -81,11 +81,11 @@ checks={d['name']:d for d in read('candidate-checks/summary.json')}
 rows=[]
 for d in read('pruning-summary.json'):
     name=d['name']; b=bench[name]; c=checks[name]
-    rows.append([name,f'{d["bytes"]/2**20:.2f}',f'{b["mean_ms"]:.1f}',f'{b["p50_ms"]:.1f}/{b["p90_ms"]:.1f}',f'{100*(1-b["mean_ms"]/113.7):.2f}%',f'{mem[name]["peak_MiB"]:.2f}',f'{c["max_abs_real7"]:.6g}/{c["rmse_real7"]:.6g}','0/2'])
-out.append(table(['Pruning','File MiB','Mean ms','p50/p90 ms','Giảm mean','Allocation MiB','Maxabs/RMSE real7','Smoke'],rows))
-out.append('''Benchmark dùng control 113,7 ms cùng candidate batch. Smoke cả ba thất bại; không ngoại suy thành official 0/200. Wilson cho 0/2 có upper bound 65,76% theo mô hình Bernoulli, cho thấy mẫu rất nhỏ; vẫn đủ lý do chưa ưu tiên chạy official tốn kém. Export sidecar `inference_validated=false` là trạng thái lúc export; inference về sau đã được `candidate-checks/summary.json` xác nhận, không chỉnh lịch sử export.
+    rows.append([name,f'{d["bytes"]/2**20:.2f}',f'{b["mean_ms"]:.1f}',f'{b["p50_ms"]:.1f}/{b["p90_ms"]:.1f}',f'{100*(1-b["mean_ms"]/113.7):.2f}%',f'{mem[name]["peak_MiB"]:.2f}',f'{c["max_abs_real7"]:.6g}/{c["rmse_real7"]:.6g}','0/2', f"{read('screen40-variants/'+name+'/result.json')['successes']}/40"] )
+out.append(table(['Pruning','File MiB','Mean ms','p50/p90 ms','Giảm mean','Allocation MiB','Maxabs/RMSE real7','Smoke lịch sử','Screening đo'],rows))
+out.append('''Benchmark dùng control 113,7 ms cùng candidate batch. Screening pruning: vision-tail-10 0/40, vision-spaced-10 0/40, coupled-tail-30 23/40 (57,5%); đây là các lượt riêng với smoke 0/2 trước đó. Có tiện ích CKA/capture và kiểm thử synthetic, chưa có calibration thực, checkpoint CKA hoặc finetuning. Smoke cả ba thất bại; không ngoại suy thành official 0/200. Wilson cho 0/2 có upper bound 65,76% theo mô hình Bernoulli, cho thấy mẫu rất nhỏ; vẫn đủ lý do chưa ưu tiên chạy official tốn kém. Export sidecar `inference_validated=false` là trạng thái lúc export; inference về sau đã được `candidate-checks/summary.json` xác nhận, không chỉnh lịch sử export.
 
-Kết luận task 6: đã implement hai cách chọn layer vision (tail/spaced) và một coupled pruning, chứng minh giảm module active/end-to-end ở các trường hợp đã đo; chưa có phương pháp giữ SR đạt yêu cầu triển khai. Bước CKA cần activation calibration riêng và finetuning/đánh giá mới, không có phép tính thay thế được thí nghiệm đó.
+Kết luận task 6: đã implement hai cách chọn layer vision (tail/spaced) và một coupled pruning, chứng minh giảm module active/end-to-end ở các trường hợp đã đo; chưa có phương pháp giữ SR đạt yêu cầu triển khai. Tiện ích CKA/capture đã có kiểm thử synthetic; bước CKA thực cần activation calibration riêng và finetuning/đánh giá mới, không có phép tính thay thế được thí nghiệm đó.
 
 ## Bằng chứng và cách đọc
 

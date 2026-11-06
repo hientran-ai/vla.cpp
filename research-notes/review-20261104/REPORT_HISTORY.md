@@ -1,4 +1,4 @@
-> ARCHIVE: các trạng thái trong file này có thể đã hết hiệu lực. Xem REPORT_SMOLVLA.md ở root cho snapshot hiện tại.
+> ARCHIVE: các trạng thái trong file này có thể đã hết hiệu lực. Xem [REPORT_SMOLVLA.md](../../REPORT_SMOLVLA.md) ở root cho snapshot hiện tại.
 
 # Báo cáo tiến độ thực nghiệm SmolVLA
 
@@ -88,7 +88,7 @@ Raw data: `research-notes/smolvla-followup-20261104/` — `screen40-defaults`, `
 | Client LIBERO | Python3.10.22; torch2.5.1+cpu; torchvision0.20.1+cpu; transformers4.51.3; numpy1.26.4 |
 | Simulator / phụ trợ | mujoco2.3.2, robosuite1.4.0, lerobot0.4.3, gymnasium0.29.1, pyarrow12.0.1 |
 
-PyTorch CPU cho client là lựa chọn đã được người dùng xác nhận. Server C++ inference vẫn CUDA; `torch.cuda.is_available=False` ở client là dự kiến. Config LIBERO riêng trong `research-notes/smolvla-followup-20261104/libero-config`; không xóa/ghi đè `~/.libero`. Phiên bản đầy đủ: [libero-freeze.txt](research-notes/smolvla-followup-20261104/libero-freeze.txt).
+PyTorch CPU cho client là lựa chọn đã được người dùng xác nhận. Server C++ inference vẫn CUDA; `torch.cuda.is_available=False` ở client là dự kiến. Config LIBERO riêng trong `research-notes/smolvla-followup-20261104/libero-config`; không xóa/ghi đè `~/.libero`. Phiên bản đầy đủ: [libero-freeze.txt](../../research-notes/smolvla-followup-20261104/libero-freeze.txt).
 
 Không sửa source mô hình, test tolerance, commit hoặc push. Các số baseline và screen được tổng hợp từ log đã lưu, không coi là một lượt đo duy nhất cùng thời điểm. Ứng dụng GPU khác, nhiệt độ phòng và vị trí kê máy chưa xác nhận đầy đủ.
 
@@ -103,7 +103,7 @@ Không sửa source mô hình, test tolerance, commit hoặc push. Các số bas
 
 Ablation predict_check trên cùng input: default lặp lại khớp bit; `VLA_FUSED_OPS=0` so default khác 350/1600 giá trị, max_abs **0,000545874**, RMSE toàn32 **0,000100497**. Tắt exact GEMM riêng không đổi output trên input này; tắt exact attention có đổi output nhưng vẫn chưa khớp unfused. Không kết luận kernel cụ thể từ các ablation này.
 
-Bằng chứng: [ctest](research-notes/smolvla-audit-20261104/ctest-build-cuda.log), [interfaces](research-notes/smolvla-audit-20261104/interfaces.log), [ablation](research-notes/smolvla-followup-20261104/ablation-summary.json), [isolate](research-notes/smolvla-followup-20261104/isolate-summary.json).
+Bằng chứng: [ctest](../../research-notes/smolvla-audit-20261104/ctest-build-cuda.log), [interfaces](../../research-notes/smolvla-audit-20261104/interfaces.log), [ablation](../../research-notes/smolvla-followup-20261104/ablation-summary.json), [isolate](../../research-notes/smolvla-followup-20261104/isolate-summary.json).
 
 ## 4. Baseline latency và memory
 
@@ -125,7 +125,7 @@ Không gồm simulator/transport/video. Số làm tròn từ benchmark, không c
 
 Peak allocation được tính bằng ledger allocation/deallocation theo timestamp, từng process/device; không đếm host/pinned RAM hoặc virtual address reservation. Không có free thiếu allocation, live âm hoặc diagnostic lost/drop. Không bao hết context/driver không được xuất thành event. Peak tính cả load/warmup/inference/cleanup. Latency dưới tracing không thay baseline; hai số1912,47 và3944 thuộc các lượt khác nhau, không trừ để tính overhead.
 
-Bằng chứng: [baseline1](research-notes/smolvla-audit-20261104/baseline-1.log), [baseline2](research-notes/smolvla-audit-20261104/baseline-2.log), [baseline3](research-notes/smolvla-audit-20261104/baseline-3.log), [memory summary](research-notes/smolvla-vram-20261104/memory-summary.json).
+Bằng chứng: [baseline1](../../research-notes/smolvla-audit-20261104/baseline-1.log), [baseline2](../../research-notes/smolvla-audit-20261104/baseline-2.log), [baseline3](../../research-notes/smolvla-audit-20261104/baseline-3.log), [memory summary](../../research-notes/smolvla-vram-20261104/memory-summary.json).
 
 ## 5. Runtime screen — kết quả sơ bộ
 
@@ -146,7 +146,7 @@ Bằng chứng: [baseline1](research-notes/smolvla-audit-20261104/baseline-1.log
 
 `flash+mm-default` là ứng viên screen nhanh hơn defaults, chưa phải cấu hình được xác nhận tốt nhất. `steps3` có mean thấp nhất trong screen nhưng độ lệch action lớn hơn đáng kể. Chưa full rerun theo protocol, memory từng cấu hình, quantization hoặc SR cho các flags. Không gộp số screen5 reps vào baseline20 reps.
 
-Bằng chứng: [screen summary](research-notes/smolvla-followup-20261104/runtime-screen/summary.json), [script screen](research-notes/smolvla-followup-20261104/screen_runtime.py), [script đối chiếu](research-notes/smolvla-followup-20261104/summarize_runtime.py).
+Bằng chứng: [screen summary](../../research-notes/smolvla-followup-20261104/runtime-screen/summary.json), [script screen](../../research-notes/smolvla-followup-20261104/screen_runtime.py), [script đối chiếu](../../research-notes/smolvla-followup-20261104/summarize_runtime.py).
 
 ## 6. LIBERO — cài đặt và smoke
 
@@ -168,7 +168,7 @@ Giới hạn và cảnh báo đã giữ nguyên:
 - Observation space cảnh báo: đã xác nhận Text mặc định không chấp nhận dấu cách trong task_description. Chưa sửa declaration hoặc observation; chưa loại trừ mọi nguyên nhân khác ở từng trường.
 - Cảnh báo thiếu dataset path không ngăn smoke (task/init/assets có sẵn); chưa tải training dataset. Tokenizer fork warning được giữ trong log.
 
-Bằng chứng: [verify](research-notes/smolvla-followup-20261104/libero-verify.log), [pip check](research-notes/smolvla-followup-20261104/libero-pip-check.log), [smoke client](research-notes/smolvla-followup-20261104/smoke-original/client.log), [smoke server](research-notes/smolvla-followup-20261104/smoke-original/server.log), [CSV](research-notes/smolvla-followup-20261104/smoke-original/outputs/smolvla/libero_object/task_0/episodes.csv), [summary](research-notes/smolvla-followup-20261104/smoke-original/outputs/smolvla/libero_object/task_0/summary.txt).
+Bằng chứng: [verify](../../research-notes/smolvla-followup-20261104/libero-verify.log), [pip check](../../research-notes/smolvla-followup-20261104/libero-pip-check.log), [smoke client](../../research-notes/smolvla-followup-20261104/smoke-original/client.log), [smoke server](../../research-notes/smolvla-followup-20261104/smoke-original/server.log), [CSV](../../research-notes/smolvla-followup-20261104/smoke-original/outputs/smolvla/libero_object/task_0/episodes.csv), [summary](../../research-notes/smolvla-followup-20261104/smoke-original/outputs/smolvla/libero_object/task_0/summary.txt).
 
 ## 7. Quyết định và bước tiếp theo
 
@@ -176,13 +176,13 @@ Bằng chứng: [verify](research-notes/smolvla-followup-20261104/libero-verify.
 
 Sau khi chốt: full rerun ứng viên runtime, đo allocation từng cấu hình cùng định nghĩa; quantization nhiều mức có/không vision, smoke mỗi GGUF mới; screening10×4, official10×20 cho bản gốc và tối đa3 cấu hình tốt nhất. Kiến trúc/phase/nsys kernel và pruning vẫn chưa có kết quả.
 
-Lệnh tái hiện đầy đủ, diễn biến cài và nguyên văn mentor: [NOTES_SMOLVLA.md](NOTES_SMOLVLA.md). Không commit/push.
+Lệnh tái hiện đầy đủ, diễn biến cài và nguyên văn mentor: [NOTES_SMOLVLA.md](../../NOTES_SMOLVLA.md). Không commit/push.
 
 
-Bổ sung kiến trúc: [ARCHITECTURE_AND_PROFILE.md](research-notes/smolvla-followup-20261104/ARCHITECTURE_AND_PROFILE.md), dựa trên paper và metadata checkpoint thật. Source cfg32 VLM/expert, vision12; chưa dùng số minh họa paper để thay cấu hình đang chạy. Phase có thay đổi topology/padding nên chưa coi là phân rã chính xác của baseline. Screening hiện giữ noise mặc định ngẫu nhiên; seed42 môi trường không ghim noise action. Các lượt smoke/screen không bảo đảm tái hiện trajectory từng bit giữa hai server.
+Bổ sung kiến trúc: [ARCHITECTURE_AND_PROFILE.md](../../research-notes/smolvla-followup-20261104/ARCHITECTURE_AND_PROFILE.md), dựa trên paper và metadata checkpoint thật. Source cfg32 VLM/expert, vision12; chưa dùng số minh họa paper để thay cấu hình đang chạy. Phase có thay đổi topology/padding nên chưa coi là phân rã chính xác của baseline. Screening hiện giữ noise mặc định ngẫu nhiên; seed42 môi trường không ghim noise action. Các lượt smoke/screen không bảo đảm tái hiện trajectory từng bit giữa hai server.
 
 
-Các file model chuẩn bị, chưa inference/SR: [quantization manifest](research-notes/smolvla-followup-20261104/quantization/manifest.json), [pruning summary](research-notes/smolvla-followup-20261104/pruning-summary.json). Mô hình gốc không bị sửa.
+Các file model chuẩn bị, chưa inference/SR: [quantization manifest](../../research-notes/smolvla-followup-20261104/quantization/manifest.json), [pruning summary](../../research-notes/smolvla-followup-20261104/pruning-summary.json). Mô hình gốc không bị sửa.
 
 
 ## Model quantization đã export (chưa inference)
@@ -201,11 +201,11 @@ Action expert giữ float và được kiểm tra raw payload không đổi (289
 
 ## Kết quả screening defaults đã chốt
 
-**38/40 (95,0%)**, 10task ×4episode,0abort/missing. Task3 và5 đạt3/4, tám task khác4/4; hai failure đều500step. Đây là screening, không thay official10×20. Seed42 chỉ cố định môi trường; noise server vẫn random theo defaults. Raw [result.json](research-notes/smolvla-followup-20261104/screen40-defaults/result.json), [protocol](research-notes/smolvla-followup-20261104/screen40-defaults/protocol.json), [artifact audit](research-notes/smolvla-followup-20261104/screen40-artifact-audit.json). Cả40video đã mở frame đầu và kiểm tra sốframe khớp steps+1, chưa decode toàn bộ mọi frame.
+**38/40 (95,0%)**, 10task ×4episode,0abort/missing. Task3 và5 đạt3/4, tám task khác4/4; hai failure đều500step. Đây là screening, không thay official10×20. Seed42 chỉ cố định môi trường; noise server vẫn random theo defaults. Raw [result.json](../../research-notes/smolvla-followup-20261104/screen40-defaults/result.json), [protocol](../../research-notes/smolvla-followup-20261104/screen40-defaults/protocol.json), [artifact audit](../../research-notes/smolvla-followup-20261104/screen40-artifact-audit.json). Cả40video đã mở frame đầu và kiểm tra sốframe khớp steps+1, chưa decode toàn bộ mọi frame.
 
 ## Phần 3 — đã bổ sung đủ bảng tối ưu không train
 
-Xem [PART3_OPTIMIZATION.md](PART3_OPTIMIZATION.md): 10 runtime configs và 6 quantized GGUF, mỗi hàng có kích thước, peak traced allocation, latency p50/p90/mean và max abs/RMSE action real7. Runtime bổ sung đủ 3 process × (3 warmup +20 reps), memory trace riêng đủ 30 PID; giữ dữ liệu batch quantization riêng. Runtime mới defaults mean104.0ms, flash+mm85.5ms; không thay thế các số lịch sử bằng số mới. WSL vẫn chưa đo được toàn bộ peak resident VRAM process. Không chạy SR/pruning trong đợt này.
+Xem [PART3_OPTIMIZATION.md](../../PART3_OPTIMIZATION.md): 10 runtime configs và 6 quantized GGUF, mỗi hàng có kích thước, peak traced allocation, latency p50/p90/mean và max abs/RMSE action real7. Runtime bổ sung đủ 3 process × (3 warmup +20 reps), memory trace riêng đủ 30 PID; giữ dữ liệu batch quantization riêng. Runtime mới defaults mean104.0ms, flash+mm85.5ms; không thay thế các số lịch sử bằng số mới. WSL vẫn chưa đo được toàn bộ peak resident VRAM process. Không chạy SR/pruning trong đợt này.
 
 ## Sàng lọc biến thể — đang chạy
 

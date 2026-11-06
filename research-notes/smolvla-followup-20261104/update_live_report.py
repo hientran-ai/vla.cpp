@@ -1,57 +1,61 @@
-"""Update only a managed status block; preserve report text outside markers."""
+"""Render current evaluation status from manifests, preserving reviewed report text."""
+import json
+import re
 from pathlib import Path
-from datetime import datetime,timezone,timedelta
-import json,re
-root=Path(__file__).resolve().parents[2];base=Path(__file__).resolve().parent
 
-def load(relative,default=None):
-    try:return json.loads((base/relative).read_text())
-    except (OSError,ValueError):return default
+ROOT = Path(__file__).resolve().parents[2]
+DATA = Path(__file__).resolve().parent
+START = '<!-- SMOLVLA_LIVE_START -->'
+END = '<!-- SMOLVLA_LIVE_END -->'
 
-screen=load('screen40-defaults/result.json',{})
-bench=load('candidate-bench/selected.json',{})
-checks={r['name']:r for r in load('candidate-checks/summary.json',[])}
-memory=load('memory-all/summary.json',{})
-smokes={r['name']:r for r in load('candidate-smokes/results.json',[])}
-progress=load('candidate-smokes/progress.json',{})
-pair=load('runtime-full-pair/selected.json',{})
-now=datetime.now(timezone(timedelta(hours=7))).strftime('%d/%m/%Y %H:%M:%S UTC+07')
-lines=['<!-- SMOLVLA_LIVE_START -->','## Hiện trạng mới nhất',f'Cập nhật: {now}. Khối này tổng hợp dữ liệu mới; các mục phía dưới giữ lịch sử số đo.','',f"- Defaults screening: **{screen.get('successes','?')}/40**; không phải official200.",'- CUDA tests: **13/15**, hai lỗi bit-exact còn mở. Dependency client còn7metadata incompatibilities.',f"- Smoke biến thể: **{progress.get('completed',0)}/{progress.get('expected',10)} cấu hình đã hoàn tất**, đang chạy `{progress.get('current','—')}`.",'- Server cũ5555 đã được người dùng dừng sau các lượt benchmark/trace; không gán lại điều kiện đo trước đó.','']
-if pair:
-    lines+=['### Runtime flags — full protocol','', '| Config | Mean / p50 / p90 (ms) | Peak traced allocation (MiB) | SR biến thể |','|---|---:|---:|---|']
-    for name in ['defaults','flash-mm']:
-        r=pair[name]
-        peak=1912.4694557189941 if name=='defaults' else 1040.268383026123
-        sr='38/40 screening' if name=='defaults' else (str(smokes[name].get('successes'))+'/2 smoke' if name in smokes else 'chưa đo')
-        lines.append(f"| {name} | {r['mean_ms']} / {r['p50_ms']} / {r['p90_ms']} | {peak:.2f} | {sr} |")
-    lines+=['','3process/config,3warmup+20reps,2views512²/16tokens. Best process theo mean; flash+mm giảmmean19,67% trong batch đối chiếu. Allocation không bao hết context/driver, không phải NVML resident VRAM.','']
-if bench:
-    lines+=['### GGUF — cùng runtime defaults','', '| Model | File MiB | p50 / p90 ms | Peak allocation MiB | Max abs real7 | Smoke task0 |','|---|---:|---:|---:|---:|---|']
-    for name,r in bench.items():
-        file=Path(r['model']);size=f'{file.stat().st_size/1048576:.2f}' if file.exists() else '—'
-        peak=f"{memory[name]['peak_MiB']:.2f}" if name in memory else 'chưa xác nhận'
-        delta=f"{checks[name]['max_abs_real7']:.7g}" if name in checks else '—'
-        if name=='defaults':smoke='2/2 (lượt gốc)'
-        elif name in smokes:
-            s=smokes[name];smoke=f"{s.get('successes','?')}/2; {s['status']}"
-        else:smoke='chưa hoàn tất'
-        lines.append(f"| {name} | {size} | {r['p50_ms']} / {r['p90_ms']} | {peak} | {delta} | {smoke} |")
-    lines+=['','Latency bảng GGUF thuộc candidate-bench, có control riêng (khác batch runtime-pair). Mỗi config3process×(3warmup+20reps). Max abs dùng harness6token/noise cố định, không phải input16token của benchmark. Quant-lm bao gồm connector; action expert289tensor giữ float. Smoke2episode không thay screening40/official200.','']
-phase=[]
-for name in ['defaults','flash-mm','smolvla-vision-spaced-10','smolvla-coupled-tail-30']:
-    r=load(f'kernel-phase-traces/{name}.boundaries.json')
-    if r:phase.append((name,r))
-if phase:
-    lines+=['### Phase — GPU active kernel time','', '| Config | Vision+connector ms | KV prefill ms | Denoise+crossKV ms |','|---|---:|---:|---:|']
-    for name,r in phase:
-        x=r['summary'];lines.append(f"| {name} | {x['vision_plus_connector']['gpu_active_kernel_ms']['mean']:.3f} | {x['kv_prefill']['gpu_active_kernel_ms']['mean']:.3f} | {x['denoise_with_cross_kv']['gpu_active_kernel_ms']['mean']:.3f} |")
-    lines+=['','20predict sau3warmup/trace. Gán module bằng biênD2D KVcopy từ source và kiểm tra toàn bộ kernel không thiếu/trùng; có cả direct launches và graph replay. Đây là active GPU time, loại CPU/copy/gaps; phase dùng16token thực thay48slot padded nên không phải phân rã chính xác baseline throughput. Denoise chưa phải riêng action expert, vision chưa tách connector.','']
-lines+=['### Còn cần thực hiện','', '- Hoàn tất smoke các biến thể; sau đó screening40 cho cấu hình được chọn.','- Baseline official10×20 đã xếp hàng tự chạy sau smoke (`official200-runner.log`); biến thể official chưa chạy.','- Chưa có CLP/CKA/calibration/finetuning; pruning hiện là depth ablation với lựa chọn tail/spaced.','- Chưa chốt cấu hình tốt nhất: tốc độ/memory và output synthetic không chứng minh giữ SR.','','Raw data: `research-notes/smolvla-followup-20261104/` — `screen40-defaults`, `candidate-bench`, `memory-all`, `candidate-checks`, `candidate-smokes`, `kernel-phase-traces`.','<!-- SMOLVLA_LIVE_END -->']
-block='\n'.join(lines)+'\n'
-p=root/'REPORT_SMOLVLA.md';text=p.read_text()
-pattern=r'<!-- SMOLVLA_LIVE_START -->.*?<!-- SMOLVLA_LIVE_END -->\n?'
-if re.search(pattern,text,flags=re.S):text=re.sub(pattern,lambda _:block,text,count=1,flags=re.S)
-else:
-    first,rest=text.split('\n',1);text=first+'\n\n'+block+'\n'+rest
-p.write_text(text)
-print('Updated managed report block:',now)
+
+def main():
+    configurations = [
+        ('Defaults screening', 'screen40-defaults/result.json'),
+        ('Flash-mm screening', 'screen40-variants/flash-mm/result.json'),
+        ('Q8-lm screening', 'screen40-variants/q8-lm/result.json'),
+        ('Q8-vision screening', 'screen40-variants/q8-vision/result.json'),
+        ('Defaults official', 'official200-defaults/result.json'),
+        ('Flash-mm official', 'official200-flash-mm/result.json'),
+        ('Vision-tail-10 screening', 'screen40-variants/smolvla-vision-tail-10/result.json'),
+        ('Vision-spaced-10 screening', 'screen40-variants/smolvla-vision-spaced-10/result.json'),
+        ('Coupled-tail-30 screening', 'screen40-variants/smolvla-coupled-tail-30/result.json'),
+    ]
+    lines = [START, '## Hiện trạng đánh giá từ manifest', '',
+             'Bảng sinh bằng `update_live_report.py`; audit CSV và hash ở '
+             '[TASK_RESULTS.md](research-notes/smolvla-followup-20261104/TASK_RESULTS.md).', '',
+             '| Cấu hình | Thành công / episode hoàn tất | SR quan sát | Trạng thái |',
+             '|---|---:|---:|---|']
+    official = []
+    for label, relative in configurations:
+        result = json.loads((DATA / relative).read_text())
+        n, k = result['completed_episodes'], result['successes']
+        state = result['state']
+        if state == 'complete':
+            assert n == result['expected_episodes'], relative
+        lines.append(f'| {label} | {k}/{n} | {100*k/n:.1f}% | {state} |')
+        if label.endswith('official') and state == 'complete' and n == 200:
+            official.append((k/n, label, k, n))
+    if official:
+        top = max(r[0] for r in official)
+        winners = [r for r in official if r[0] == top]
+        lines += ['', 'SR official quan sát cao nhất trong các bản đã hoàn tất 200 episode: '
+                  + ', '.join(f'{label} {k}/{n}' for _, label, k, n in winners) + '. '
+                  'Chưa chứng minh ưu thế thống kê; hai bản Q8 và repeated-seed chưa có official.']
+    lines += ['', 'Smoke, screening và official là các lượt riêng, không cộng mẫu số. '
+              'Pruning hiện là depth ablation; có tiện ích CKA/capture nhưng chưa calibration thực hoặc finetuning.', END]
+    block = '\n'.join(lines) + '\n'
+    path = ROOT / 'REPORT_SMOLVLA.md'
+    content = path.read_text()
+    pattern = re.escape(START) + r'.*?' + re.escape(END) + r'\n?'
+    if re.search(pattern, content, re.S):
+        content = re.sub(pattern, lambda _: block, content, count=1, flags=re.S)
+    else:
+        title, rest = content.split('\n', 1)
+        content = title + '\n\n' + block + '\n' + rest
+    path.write_text(content)
+    print('Updated manifest status; preserved report outside managed markers.')
+
+
+if __name__ == '__main__':
+    main()

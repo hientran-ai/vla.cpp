@@ -25,7 +25,7 @@ def audit(name, directory, episodes_per_task=4, sr_key='screening_sr'):
     require(sorted(t['task_id'] for t in tasks) == list(range(10)), f'{name}: task IDs')
     episodes = successes = aborted = 0
     records = []
-    for task in tasks:
+    for task in sorted(tasks, key=lambda t: t['task_id']):
         path = Path(task['csv'])
         if not path.is_absolute():
             path = ROOT / path
@@ -51,7 +51,7 @@ def audit(name, directory, episodes_per_task=4, sr_key='screening_sr'):
     require(successes == result['successes'] and aborted == 0, f'{name}: final totals')
     require(abs(result[sr_key] - successes / episodes) < 1e-12, f'{name}: SR')
     return {'episodes': episodes, 'successes': successes, 'aborted': aborted,
-            'screening_sr': successes / episodes, 'tasks': records}
+            sr_key: successes / episodes, 'tasks': sorted(records, key=lambda r: r['task_id'])}
 
 
 def main():
@@ -68,8 +68,9 @@ def main():
     output = {'updated_at': updated, 'state': 'verified', 'scope': 'CSV counts, IDs, steps, SR and runner exits; no video audit',
               'variant_episodes': sum(results[n]['episodes'] for n in names), 'results': results}
     (DATA / 'screening-final-audit.json').write_text(json.dumps(output, indent=2) + '\n')
-    snapshot = {'updated_at': updated, 'classification': 'screening complete; variant official200 not measured',
-                'variants': {n: read(DATA / 'screen40-variants' / n / 'result.json') for n in names}}
+    snapshot = {'updated_at': updated, 'classification': 'screening complete; official status in official_results',
+                'variants': {n: read(DATA / 'screen40-variants' / n / 'result.json') for n in names},
+                'official_results': {n: read(DATA / f'official200-{n}' / 'result.json') for n in ('defaults', 'flash-mm')}}
     (ROOT / 'research-notes/review-20261104/submission-progress.json').write_text(json.dumps(snapshot, indent=2) + '\n')
     for name, result in results.items():
         print(f"{name}: {result['successes']}/{result['episodes']}, aborted={result['aborted']}")

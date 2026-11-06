@@ -65,15 +65,15 @@ Default-path nsys: kernel duration 2260,227→1733,185 ms trên 20 predict, gi�
 
 `prune_depth.py` cắt block thật, reindex tensor và cập nhật metadata; giữ nguyên bytes của weight còn lại. Vision-tail bỏ 10,11; vision-spaced bỏ 4,8; coupled-tail bỏ 30,31 ở cả VLM/expert. Coupled giữ parity SA/CA; loader dùng chung số layer nên chưa prune VLM/expert độc lập. Đây là structured depth pruning không train, chưa phải CLP/CKA. Zero weight không giảm kích thước dense GEMM nên không chọn làm bằng chứng tăng tốc.
 
-| Pruning | File MiB | Mean ms | p50/p90 ms | Giảm mean | Allocation MiB | Maxabs/RMSE real7 | Smoke |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| smolvla-vision-tail-10 | 1047.10 | 106.4 | 106.6/108.1 | 6.42% | 1885.39 | 1.75651/0.519006 | 0/2 |
-| smolvla-vision-spaced-10 | 1047.10 | 104.7 | 104.5/105.7 | 7.92% | 1885.39 | 0.0949649/0.0416718 | 0/2 |
-| smolvla-coupled-tail-30 | 1024.75 | 110.4 | 110.3/110.9 | 2.90% | 1814.40 | 0.0633535/0.0224658 | 0/2 |
+| Pruning | File MiB | Mean ms | p50/p90 ms | Giảm mean | Allocation MiB | Maxabs/RMSE real7 | Smoke lịch sử | Screening đo |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| smolvla-vision-tail-10 | 1047.10 | 106.4 | 106.6/108.1 | 6.42% | 1885.39 | 1.75651/0.519006 | 0/2 | 0/40 |
+| smolvla-vision-spaced-10 | 1047.10 | 104.7 | 104.5/105.7 | 7.92% | 1885.39 | 0.0949649/0.0416718 | 0/2 | 0/40 |
+| smolvla-coupled-tail-30 | 1024.75 | 110.4 | 110.3/110.9 | 2.90% | 1814.40 | 0.0633535/0.0224658 | 0/2 | 23/40 |
 
-Benchmark dùng control 113,7 ms cùng candidate batch. Smoke cả ba thất bại; không ngoại suy thành official 0/200. Wilson cho 0/2 có upper bound 65,76% theo mô hình Bernoulli, cho thấy mẫu rất nhỏ; vẫn đủ lý do chưa ưu tiên chạy official tốn kém. Export sidecar `inference_validated=false` là trạng thái lúc export; inference về sau đã được `candidate-checks/summary.json` xác nhận, không chỉnh lịch sử export.
+Benchmark dùng control 113,7 ms cùng candidate batch. Screening pruning: vision-tail-10 0/40, vision-spaced-10 0/40, coupled-tail-30 23/40 (57,5%); đây là các lượt riêng với smoke 0/2 trước đó. Có tiện ích CKA/capture và kiểm thử synthetic, chưa có calibration thực, checkpoint CKA hoặc finetuning. Smoke cả ba thất bại; không ngoại suy thành official 0/200. Wilson cho 0/2 có upper bound 65,76% theo mô hình Bernoulli, cho thấy mẫu rất nhỏ; vẫn đủ lý do chưa ưu tiên chạy official tốn kém. Export sidecar `inference_validated=false` là trạng thái lúc export; inference về sau đã được `candidate-checks/summary.json` xác nhận, không chỉnh lịch sử export.
 
-Kết luận task 6: đã implement hai cách chọn layer vision (tail/spaced) và một coupled pruning, chứng minh giảm module active/end-to-end ở các trường hợp đã đo; chưa có phương pháp giữ SR đạt yêu cầu triển khai. Bước CKA cần activation calibration riêng và finetuning/đánh giá mới, không có phép tính thay thế được thí nghiệm đó.
+Kết luận task 6: đã implement hai cách chọn layer vision (tail/spaced) và một coupled pruning, chứng minh giảm module active/end-to-end ở các trường hợp đã đo; chưa có phương pháp giữ SR đạt yêu cầu triển khai. Tiện ích CKA/capture đã có kiểm thử synthetic; bước CKA thực cần activation calibration riêng và finetuning/đánh giá mới, không có phép tính thay thế được thí nghiệm đó.
 
 ## Bằng chứng và cách đọc
 
