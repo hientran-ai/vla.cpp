@@ -1,0 +1,38 @@
+{
+  "state": "complete",
+  "results": [
+    {
+      "name": "smolvla-vision-tail-10",
+      "command": [
+        "/home/doris/projects/vla.cpp/.venv/bin/python",
+        "-u",
+        "/home/doris/projects/vla.cpp/research-notes/smolvla-followup-20261104/run_variant40.py",
+        "smolvla-vision-tail-10",
+        "/home/doris/projects/vla.cpp/research-notes/generated-models/smolvla-vision-tail-10.gguf"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "smolvla-vision-spaced-10",
+      "command": [
+        "/home/doris/projects/vla.cpp/.venv/bin/python",
+        "-u",
+        "/home/doris/projects/vla.cpp/research-notes/smolvla-followup-20261104/run_variant40.py",
+        "smolvla-vision-spaced-10",
+        "/home/doris/projects/vla.cpp/research-notes/generated-models/smolvla-vision-spaced-10.gguf"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "smolvla-coupled-tail-30",
+      "command": [
+        "/home/doris/projects/vla.cpp/.venv/bin/python",
+        "-u",
+        "/home/doris/projects/vla.cpp/research-notes/smolvla-followup-20261104/run_variant40.py",
+        "smolvla-coupled-tail-30",
+        "/home/doris/projects/vla.cpp/research-notes/generated-models/smolvla-coupled-tail-30.gguf"
+      ],
+      "exit": 0
+    }
+  ]
+}

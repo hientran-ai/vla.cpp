@@ -555,3 +555,21 @@ Screen40 smolvla-coupled-tail-30: task 8 hoàn tất 4/4; tổng tạm thời 20
 Screen40 smolvla-coupled-tail-30: task 9 hoàn tất 3/4; tổng tạm thời 23/40. Log screen40-variants/smolvla-coupled-tail-30/task-9.log; chưa phải official SR.
 
 Official200 flash-mm: task 0 hoàn tất 17/20; tổng tạm thời 17/20. Log official200-flash-mm/task-0.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+Official200 flash-mm: task 1 hoàn tất 19/20; tổng tạm thời 36/40. Log official200-flash-mm/task-1.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+Official200 flash-mm: task 2 hoàn tất 15/20; tổng tạm thời 51/60. Log official200-flash-mm/task-2.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+Official200 flash-mm: task 3 hoàn tất 19/20; tổng tạm thời 70/80. Log official200-flash-mm/task-3.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+Official200 flash-mm: task 4 hoàn tất 19/20; tổng tạm thời 89/100. Log official200-flash-mm/task-4.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+Official200 flash-mm: task 5 hoàn tất 10/20; tổng tạm thời 99/120. Log official200-flash-mm/task-5.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+Official200 flash-mm: task 6 hoàn tất 20/20; tổng tạm thời 119/140. Log official200-flash-mm/task-6.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+Official200 flash-mm: task 7 hoàn tất 20/20; tổng tạm thời 139/160. Log official200-flash-mm/task-7.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+Official200 flash-mm: task 8 hoàn tất 20/20; tổng tạm thời 159/180. Log official200-flash-mm/task-8.log; SR tạm thời; chỉ chốt sau đủ200 episode.
+
+Official200 flash-mm: task 9 hoàn tất 19/20; tổng tạm thời 178/200. Log official200-flash-mm/task-9.log; SR tạm thời; chỉ chốt sau đủ200 episode.
