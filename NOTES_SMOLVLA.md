@@ -2,7 +2,7 @@
 
 Cập nhật trạng thái ngày 06/11/2026 (UTC+07). Các mục phía sau là nhật ký theo thời điểm; những dòng “chưa đo/chưa cài” cũ không đại diện cho hiện trạng. Phạm vi và kết luận hiện tại ở [REPORT_SMOLVLA.md](REPORT_SMOLVLA.md).
 
-## Checklist 6 yêu cầu (trạng thái hiện tại)
+## Checklist 6 yêu cầu (snapshot ngày 06/11/2026)
 
 | Mục | Đã hoàn thành | Giới hạn còn mở |
 |---|---|---|
@@ -14,6 +14,10 @@ Cập nhật trạng thái ngày 06/11/2026 (UTC+07). Các mục phía sau là n
 | 6. Pruning | Ba GGUF depth ablation; screening vision-tail 0/40, vision-spaced 0/40, coupled-tail 23/40 | Có tiện ích CKA/capture; chưa calibration thực, checkpoint CKA hoặc finetuning |
 
 Kiểm tra lại CSV cho đủ 680 episode (560 runtime/quantization và 120 pruning) và bảng theo task: [TASK_RESULTS.md](research-notes/smolvla-followup-20261104/TASK_RESULTS.md). Phần còn thiếu và tiêu chí hoàn tất: [REVIEW_REQUESTS.md](REVIEW_REQUESTS.md).
+
+## Nhật ký lịch sử
+
+Các mục dưới đây ghi lại trạng thái ở từng thời điểm. Đọc [báo cáo hiện tại](REPORT_SMOLVLA.md) để lấy kết luận cuối.
 
 ## Nguyên văn mentor
 
@@ -577,4 +581,6 @@ Official200 flash-mm: task 9 hoàn tất 19/20; tổng tạm thời 178/200. Log
 
 Cập nhật chốt báo cáo ngày 06/11/2026: Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200. Đối chiếu CSV official flash-mm và cập nhật báo cáo, phụ lục tính toán, audit theo task; không chạy inference mới.
 
-Đồng bộ nội dung ngày 06/11/2026: audit đủ 90 CSV/680 episode gồm pruning; cập nhật checklist/review/profile và script sinh báo cáo, sửa link tài liệu đã xóa. Kiểm tra trong thư mục tạm không model/GPU và chạy lại bốn generator cho đầu ra không đổi. Chi tiết: [SYNC_REVIEW_SMOLVLA.md](SYNC_REVIEW_SMOLVLA.md). Giữ nhật ký lịch sử và các giới hạn thực nghiệm.
+Đồng bộ nội dung ngày 06/11/2026: audit đủ 90 CSV/680 episode gồm pruning; cập nhật checklist/review/profile và script sinh báo cáo, sửa link tài liệu đã xóa. Kiểm tra trong thư mục tạm không model/GPU và chạy lại bốn generator cho đầu ra không đổi. Chi tiết thay đổi được lưu trong lịch sử Git. Giữ nhật ký lịch sử và các giới hạn thực nghiệm.
+
+Dọn tài liệu ngày 06/11/2026: rút gọn REPORT/SUBMISSION/REVIEW, thêm research-notes/README.md làm mục lục. Xóa bản ghi đồng bộ, report archive, markdown-audit cũ và submission-progress trùng manifest; audit_screening không còn sinh snapshot trùng. Metadata PyPI tải về được xóa khỏi local. Chuyển on.txt/off.txt vào smolvla-followup-20261104/fused-comparison, giữ nguyên nội dung và đối chiếu lại float32. CSV/protocol/manifest thí nghiệm được giữ nguyên. Audit 90 CSV/680 episode, link và bốn generator đều đạt; chạy lại generator cho kết quả không đổi.

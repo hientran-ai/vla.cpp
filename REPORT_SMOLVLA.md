@@ -1,186 +1,122 @@
 # Báo cáo thực nghiệm SmolVLA
 
+Cập nhật ngày 06/11/2026. Checkpoint: `vrfai/smolvla-libero-gguf`. Máy đo: RTX 3060 Laptop 6 GiB, WSL2; repo gốc tại commit `4a542ed3bfb8f330388aceb8926294a951156172`.
+
+**Lựa chọn hiện tại: flash-mm**, theo SR official quan sát cao nhất trong các cấu hình đã chạy đủ 200 episode. Kết quả hơn defaults một episode, chưa chứng minh ưu thế thống kê hoặc độ ổn định qua nhiều seed. Q8 chưa có official200.
+
+Đọc nhanh: [bản tóm tắt](SUBMISSION_SMOLVLA.md). Tra cứu: [sơ đồ tài liệu và dữ liệu](research-notes/README.md).
+
+## 1. Cài đặt và kiểm thử
+
+Đã build CUDA architecture 86, Release, `GGML_CUDA=ON`, `VLA_BUILD_TESTS=ON`; CUDA graphs bật. Đây là incremental build, chưa xác minh clean rebuild.
+
+| Công cụ | Kết quả đã ghi nhận |
+|---|---|
+| CLI | Trả chunk action 50 × 32 với input synthetic |
+| Server và Python binding | Output hữu hạn, khớp bit với harness khi cùng input/noise |
+| `vla_predict_check` | Kiểm tra output trên input/noise cố định; action thực có 7 chiều, phần còn lại là padding |
+| `ctest` | 13/15 pass; `foldquant_cuda_op` và `fused_cuda_ops` fail bit-exact, chưa sửa hoặc rerun |
+
+Fused/unfused có max abs 0,000545874 trên harness đã lưu. LIBERO chạy được nhưng môi trường còn bảy xung đột dependency metadata. Lệnh và diễn biến kiểm thử nằm trong [nhật ký](NOTES_SMOLVLA.md#lệnh-đã-chạy-và-ý-nghĩa).
+
+## 2. Baseline
+
+| Chỉ số | Giá trị |
+|---|---|
+| Mean / p50 / p90 | 112,0 / 111,8 / 112,8 ms, cùng lượt được chọn |
+| Peak traced allocation | 1912,47 MiB, peak lớn nhất trong ba process |
+| Input benchmark | Hai ảnh 512 × 512, 16 language tokens, 10 bước denoise; chunk 50 × 32 |
+| Protocol | Ba process tuần tự; mỗi process có 3 warmup và 20 lần đo |
+| Phạm vi | Engine predict, chưa gồm network hoặc simulator |
+
+Laptop cắm sạc, nguồn bình thường, không tản nhiệt ngoài theo người dùng. Chưa xác minh mọi lượt đo đều cô lập với tải khác. Runtime bổ sung có guard từ chối chạy khi còn server. Telemetry bổ sung có 120 mẫu ở 53–72°C, không phủ toàn bộ baseline và chưa đủ kết luận throttle.
+
+WSL trả N/A cho process resident VRAM. Allocation chỉ bao phần được trace, chưa gồm đầy đủ context/driver.
+
+## 3. Tối ưu không train
+
+Đã đo 10 cấu hình runtime và sáu GGUF quantized Q8/Q5/Q4, có và không quantize vision. [Bảng tối ưu](PART3_OPTIMIZATION.md) lưu kích thước file, allocation, mean/p50/p90 và sai lệch action cho từng cấu hình.
+
+| Batch / cách chọn thống kê | Defaults mean | Flash-mm mean | Mức giảm |
+|---|---:|---:|---:|
+| Phần 3: lượt có mean thấp nhất | 104,0 ms | 85,5 ms | 17,79% |
+| Runtime-pair: trung vị ba run means | 114,1 ms | 92,4 ms | 19,02% |
+
+Các batch có điều kiện đo và control riêng. Không ghép số liệu giữa hai hàng. Quantization dùng control riêng 113,7 ms. Q8-vision có allocation 925,88 MiB; Q8-lm 1020,70 MiB; control 1912,47 MiB.
+
+`steps-3` nhanh nhất trong tập runtime (79,2 ms) nhưng đổi solver và có sai lệch action lớn, chưa được đánh giá SR. Flash-mm giữ 10 bước denoise. Chưa đo cấu hình quantization kết hợp flash-mm nên không cộng các mức cải thiện.
+
+Output-check dùng harness 6 token và noise cố định, khác input benchmark 16 token. Max abs/RMSE lấy trên 50 × 7 action thực; không suy SR từ sai số synthetic.
+
+## 4. Đánh giá LIBERO
+
+Suite `libero_object`, task 0–9, `n_action_steps=1`, seed môi trường 42. Server giữ noise ngẫu nhiên mặc định; cùng seed môi trường chưa đảm bảo cùng noise hoặc trajectory.
+
 <!-- SMOLVLA_LIVE_START -->
-## Hiện trạng đánh giá từ manifest
+### Kết quả từ manifest
 
 Bảng sinh bằng `update_live_report.py`; audit CSV và hash ở [TASK_RESULTS.md](research-notes/smolvla-followup-20261104/TASK_RESULTS.md).
 
-| Cấu hình | Thành công / episode hoàn tất | SR quan sát | Trạng thái |
+| Cấu hình / lượt đánh giá | Thành công | SR quan sát | Trạng thái |
 |---|---:|---:|---|
-| Defaults screening | 38/40 | 95.0% | complete |
-| Flash-mm screening | 35/40 | 87.5% | complete |
-| Q8-lm screening | 36/40 | 90.0% | complete |
-| Q8-vision screening | 36/40 | 90.0% | complete |
-| Defaults official | 177/200 | 88.5% | complete |
-| Flash-mm official | 178/200 | 89.0% | complete |
-| Vision-tail-10 screening | 0/40 | 0.0% | complete |
-| Vision-spaced-10 screening | 0/40 | 0.0% | complete |
-| Coupled-tail-30 screening | 23/40 | 57.5% | complete |
+| Defaults screening | 38/40 | 95,0% | Hoàn tất |
+| Flash-mm screening | 35/40 | 87,5% | Hoàn tất |
+| Q8-lm screening | 36/40 | 90,0% | Hoàn tất |
+| Q8-vision screening | 36/40 | 90,0% | Hoàn tất |
+| Defaults official | 177/200 | 88,5% | Hoàn tất |
+| Flash-mm official | 178/200 | 89,0% | Hoàn tất |
+| Vision-tail-10 screening | 0/40 | 0,0% | Hoàn tất |
+| Vision-spaced-10 screening | 0/40 | 0,0% | Hoàn tất |
+| Coupled-tail-30 screening | 23/40 | 57,5% | Hoàn tất |
 
 SR official quan sát cao nhất trong các bản đã hoàn tất 200 episode: Flash-mm official 178/200. Chưa chứng minh ưu thế thống kê; hai bản Q8 và repeated-seed chưa có official.
-
-Smoke, screening và official là các lượt riêng, không cộng mẫu số. Pruning hiện là depth ablation; có tiện ích CKA/capture nhưng chưa calibration thực hoặc finetuning.
 <!-- SMOLVLA_LIVE_END -->
 
+Smoke dùng 1 task × 2 episode; screening dùng 10 × 4; official dùng 10 × 20. Task 9 official defaults đã chạy lại đủ 20 episode sau timeout, loại toàn bộ lượt dở.
 
-Bản tổng hợp đủ nội dung 6 task, bổ sung tính toán theo yêu cầu người dùng ngày 04/11/2026. Các thí nghiệm chưa chạy vẫn được ghi rõ. Repo gốc tại commit `4a542ed3bfb8f330388aceb8926294a951156172`; các kết quả là số đo cục bộ trên RTX 3060 Laptop 6 GiB qua WSL2. Cập nhật ngày 06/11/2026 (UTC+07): flash-mm official 178/200; screening ba biến thể runtime/quantization và ba pruning đều hoàn tất; phần dự toán không phải số đo.
+[Audit và bảng theo task](research-notes/smolvla-followup-20261104/TASK_RESULTS.md) kiểm tra 90 CSV / 680 episode: 400 official, 160 screening runtime/quantization và 120 screening pruning. Tất cả các CSV được chọn có `aborted=0`; hash và record từng episode nằm trong [submission-audit.json](research-notes/smolvla-followup-20261104/submission-audit.json).
 
-## Trạng thái sáu phần
+## 5. Kiến trúc và profiling
 
-| Phần | Kết quả hiện có | Chưa hoàn tất |
-|---|---|---|
-| 1. Cài đặt | CUDA arch86; CLI, server, binding, predict_check đã chạy | Tests13/15; hai lỗi bit-exact còn mở |
-| 2. Baseline | Có p50/p90, traced allocation và điều kiện đo | Không đo được toàn bộ resident VRAM riêng process trên WSL |
-| 3. Không train | 10 runtime configs và Q8/Q5/Q4 có/không vision; đủ4chỉ tiêu | Flash-mm và hai bản Q8 vẫn thực hiện được tác vụ; SR screening thấp hơn defaults, chưa xác nhận giữ nguyên chất lượng |
-| 4. LIBERO | Baseline screening38/40; official177/200 | Flash-mm35/40, Q8-lm36/40; Q8-vision36/40; official flash-mm178/200; official Q8 chưa đo |
-| 5. Profile | Kiến trúc, phase, nsys kernel/module traces | Chọn flash-mm theo SR official quan sát (178/200); chưa tách connector khỏi vision |
-| 6. Pruning | 3depth ablations; module latency và smoke | Screening 0/40, 0/40, 23/40; có tiện ích CKA, chưa calibration thực/finetuning |
+[Kiến trúc và module timing](research-notes/smolvla-followup-20261104/ARCHITECTURE_AND_PROFILE.md) mô tả vision → connector → VLM → action expert và vòng denoise. [Audit Task 5](research-notes/task5-profiling/README.md) đối chiếu sáu benchmark log và hai SQLite node trace đã lưu.
 
-## Protocol và kết quả baseline
+Runtime-pair có trung vị mean 114,1 → 92,4 ms; p50 114,1 → 92,5 ms; p90 115,4 → 93,0 ms. Đây là trung vị thống kê của ba lượt, chưa phải percentile gộp 60 mẫu. Vision + connector wall time giảm 56,1 → 43,6 ms.
 
-- Checkpoint gốc: `vrfai/smolvla-libero-gguf`; hash/metadata lưu trong research-notes.
-- vla-bench:2views512×512,16tokens,10solver steps;3process/config,3warmup+20reps. Chọn lượt có mean thấp nhất và p50/p90 cùng lượt; bộ nhớ lấy peak lớn nhất.
-- LIBERO: libero_object, task0–9, n_action_steps1, seed môi trường42; server noise mặc định ngẫu nhiên. Seed42 không đảm bảo output bitwise hoặc cùng noise giữa các cấu hình.
-- Defaults screening38/40=95%; official177/200=88,5%. Không so screening của biến thể trực tiếp với official baseline để kết luận giảm SR.
-- Task9 official từng timeout. Chạy lại toàn bộ20episode task9, loại toàn bộ phần dở; giữ180episode task0–8. Lần recovery đầu lỗi config trước episode; retry thành công. Kết quả cuối đã đối chiếu10CSV đủ200episode, không abort.
+PHASE đổi graph/padding từ 48 xuống 16 language tokens, có copy K/V và backend synchronization. Timer gồm host dispatch, chờ và gaps; chưa phải phân rã chính xác default latency. Vision còn gồm connector, denoise còn gồm cross-KV và solver.
 
-| Task | Thành công /20 |
-|---|---:|
-| 0 | 18 |
-| 1 | 20 |
-| 2 | 17 |
-| 3 | 17 |
-| 4 | 19 |
-| 5 | 13 |
-| 6 | 16 |
-| 7 | 20 |
-| 8 | 20 |
-| 9 | 17 |
+Trên 20 prediction được trace, tổng kernel duration giảm 2260,227 → 1733,185 ms. GEMM theo tên chiếm 58,30% → 51,85%, có cả attention matmul. Gaps trong recorded process activity giảm 10,54% → 9,13%; chưa chứng minh toàn GPU idle hoặc CPU bottleneck.
 
-## Tối ưu không train
+Cả hai trace cảnh báo `Not all CUDA events might have been collected.` và dùng legacy software tracing. Mọi tỷ lệ chỉ mô tả events đã ghi nhận; chưa có exact attention/connector timing hoặc hardware counters chứng minh bottleneck.
 
-[Bảng phần3](PART3_OPTIMIZATION.md) có kích thước file, mean/p50/p90, peak allocation và max abs/RMSE real7 cho từng cấu hình.
+## 6. Pruning
 
-Ba batch latency phải đọc riêng: baseline ban đầu mean112,0ms; runtime-pair defaults113,9ms/flash+mm91,5ms; runtime bổ sung defaults104,0ms/flash+mm85,5ms. Đây là các lượt ở thời điểm/điều kiện khác nhau, không phải một control chung. Không chọn số thấp nhất xuyên batch để tính speedup. Quantization có control riêng mean113,7ms.
+Đã cắt layer thật và đo ba depth ablation: vision-tail-10, vision-spaced-10 và coupled-tail-30. Screening lần lượt đạt 0/40, 0/40 và 23/40; chưa chọn bản nào để triển khai. Smoke 0/2 trước đó là lượt riêng, không cộng vào screening.
 
-Sai lệch output dùng input harness6token và noise cố định; benchmark dùng16token. Metric lấy50×7 action thực, loại padding. Không suy ra SR từ sai số synthetic.
+[Phương pháp và script](research-notes/smolvla-pruning/README.md) phân biệt depth ablation với CKA. Có tiện ích capture/CKA và kiểm thử synthetic; chưa có calibration thực, checkpoint CKA, finetuning hoặc SR cho CKA. Kết quả giảm module latency không tự chứng minh giữ chất lượng.
 
-## Screening biến thể — kết quả hoàn tất
+## Những việc còn thiếu
 
-| Cấu hình | Episode đã chốt | Thành công | Trạng thái |
-|---|---:|---:|---|
-| flash-mm | 40/40 | 35 | complete: 87,5% |
-| q8-lm | 40/40 | 36 | complete: 90% |
-| q8-vision | 40/40 | 36 | complete: 90% |
-
-Đã chạy tuần tự flash+mm → Q8 không vision → Q8 có vision, tổng 120/120 episode; cả ba runner exit 0, batch complete. Kết quả cuối và CSV từng task: `research-notes/smolvla-followup-20261104/screen40-variants/`. Đối chiếu CSV bằng `audit_screening.py` trong cùng thư mục cha; báo cáo kiểm tra: `screening-final-audit.json`. Screening defaults 38/40, flash-mm 35/40 và hai bản Q8 36/40 chưa đủ để kết luận giữ SR hoặc xếp hạng chất lượng.
-
-## Profile và pruning
-
-[Kiến trúc và profile](research-notes/smolvla-followup-20261104/ARCHITECTURE_AND_PROFILE.md) giải thích phạm vi phase, module GPU-active và giới hạn nsys/WSL. [Phương pháp pruning và giới hạn CKA](research-notes/smolvla-pruning/README.md) mô tả tiện ích đã có và phần thực nghiệm còn thiếu. Pruning hiện chỉ bỏ layer tail/spaced, không gọi là tái hiện CLP.
-
-### Task 5 — audit bổ sung ngày 05/11/2026
-
-Đã đối chiếu sáu raw benchmark log và tính lại hai SQLite node trace; không chạy inference mới. Commit source tại lúc audit: `92d134a7557f4580f3b8c14042c1bad61c3f1d7c`; model SHA256 hiện tại khớp lịch sử. Tại thời điểm audit 05/11, GPU ngoài sandbox có server đang dùng nên không chạy benchmark/test CUDA cạnh tranh.
-
-| Runtime-pair, trung vị thống kê của ba lượt | Defaults | Flash-mm |
-|---|---:|---:|
-| Mean latency (ms) | 114,1 | 92,4 |
-| p50 (ms) | 114,1 | 92,5 |
-| p90 (ms) | 115,4 | 93,0 |
-| Vision + connector wall time (ms) | 56,1 | 43,6 |
-
-Mean đại diện giảm **19,02%**. Đây là trung vị ba run means/p50/p90, không percentile gộp 60 samples. Các số 113,9 → 91,5 ms ở phần lịch sử là lượt có mean thấp nhất của cùng batch; batch runtime 104,0 → 85,5 ms vẫn là thí nghiệm riêng, không thay control xuyên batch. Flash-mm giữ 10 bước denoise nhưng thay runtime arithmetic; screening 35/40 so với defaults 38/40 chưa xác nhận giữ chất lượng.
-
-Timer dùng CPU steady_clock; `ggml_backend_graph_compute` đồng bộ backend trước khi trả về. PHASE đổi prefix padding 48→16 language tokens, tạo graph riêng và copy K/V giữa hai timer; không coi là phân rã chính xác default latency. Vision gồm connector/preprocess/copies; denoise gồm cross-KV projection và solver. Không có text-token decode trong vòng action denoise.
-
-Trên 20 prediction được trace, summed kernel duration 2260,227 → 1733,185 ms; nhóm GEMM (gồm attention products) 1317,749 → 898,702 ms. Khoảng không có recorded process activity là 10,54% → 9,13%, không phải chứng minh toàn GPU idle. **Cả hai trace có cảnh báo `Not all CUDA events might have been collected.` và dùng legacy software tracing do hardware tracing không hỗ trợ.** Vì vậy coverage đầy đủ, exact attention time và nguyên nhân gap chưa được xác nhận; các tỷ lệ chỉ mô tả events đã ghi nhận. Hai test CUDA chưa rerun, không báo đã pass.
-
-Chi tiết: [kiến trúc và source anchors](research-notes/task5-profiling/architecture.md), [timer/phase measurements](research-notes/task5-profiling/timing-methodology.md), [Nsight API/kernel/memcpy](research-notes/task5-profiling/nsys-analysis.md), [giải thích tiếng Việt](research-notes/task5-profiling/explanation.md), [các phần xin review và giới hạn](research-notes/task5-profiling/limitations.md), [tái lập](research-notes/task5-profiling/reproduction.md).
-
-## Vấn đề cần review
-
-1. Hai CUDA tests fail và fused/unfused maxabs0,000545874: chưa tìm ra nguyên nhân; giữ defaults theo quyết định baseline của người dùng.
-2. Peak allocation1912,47MiB chưa bao hết context/driver. NVML process memory trả N/A; không gọi là toàn bộ process resident VRAM.
-3. Bảy xung đột dependency metadata còn tồn tại dù client chạy được. Môi trường chưa có lock portable sạch.
-4. Random server noise và screening40 nhỏ làm khác biệt SR có độ bất định. Wilson interval tính trong phụ lục; chưa có repeated-seed evaluation.
-5. Batch latency có khác biệt điều kiện nhiệt/tải; đề nghị thống nhất protocol final trước kết luận triển khai.
-6. Chọn calibration riêng và kiểm tra ràng buộc layer VLM/expert, parity SA/CA trước CKA; không dùng episode đánh giá để chọn layer.
-
-## Tài liệu và bằng chứng
-
-- [Bảng kết quả theo task](research-notes/smolvla-followup-20261104/TASK_RESULTS.md) và [audit 680 episode](research-notes/smolvla-followup-20261104/submission-audit.json): kiểm tra lại 400 official + 160 screening runtime/quantization + 120 screening pruning từ CSV, có hash và loại lượt task 9 bị gián đoạn. Chạy lại bằng `python3 research-notes/smolvla-followup-20261104/audit_submission.py`; không cần inference mới.
-- [Nhật ký](NOTES_SMOLVLA.md) là lịch sử, không dùng các dòng trạng thái cũ làm hiện trạng.
-- [Report lịch sử](research-notes/review-20261104/REPORT_HISTORY.md) giữ nguyên snapshot cũ, có nội dung đã hết hiệu lực.
-- [Các phần xin review](REVIEW_REQUESTS.md) liệt kê các vấn đề tài liệu và phương pháp.
-- Dữ liệu nhỏ/scripts được commit; GGUF, video, trace nsys/sqlite, wheel và môi trường cài đặt không đưa lên Git.
-
-## Task 1 — cài đặt, công cụ và tiêu chí đạt
-
-CUDA architecture 86 khớp compute capability 8.6 của RTX 3060 Laptop; Release, `GGML_CUDA=ON`, `VLA_BUILD_TESTS=ON`, CUDA graphs bật. Incremental build exit0; đây chưa phải clean rebuild. Ctest 13/15 pass; `foldquant_cuda_op` và `fused_cuda_ops` fail hợp đồng bit-exact. Không nới tolerance để gọi pass. FoldQuant quan sát -3.4419589 so -3.44195867; chưa xác định nguyên nhân.
-
-| Công cụ | Dùng để hiểu/kiểm tra | Kết quả |
-|---|---|---|
-| CLI | Inference one-shot qua terminal | CUDA trả chunk50×32 với ảnh/token synthetic |
-| Server | Phục vụ request qua protobuf/transport | Request thật trả output hữu hạn, khớp bit harness khi cùng noise/input |
-| Python binding | Gọi C ABI/libvla.so từ Python | Shape50×32, hữu hạn, khớp bit predict_check |
-| vla_predict_check | Kiểm tra kỹ thuật với input/noise cố định | Real action7, padded32, chunk50; không đo hiểu instruction |
-| ctest | Kiểm thử từng phần runtime/kernel | 13/15; còn2fail |
-
-Lệnh tái hiện và log: [NOTES_SMOLVLA.md](NOTES_SMOLVLA.md#lệnh-đã-chạy-và-ý-nghĩa), `research-notes/smolvla-audit-20261104/ctest-build-cuda.log`, `interfaces.log`, `check_interfaces.py`. Môi trường LIBERO đã chạy thật dù còn7xung đột metadata dependency; chưa có lock portable sạch.
-
-## Task 2 — bảng baseline độc lập
-
-| Thông số | Giá trị đo / cấu hình |
+| Hạng mục | Cần bổ sung |
 |---|---|
-| Mean / p50 / p90 |112,0 /111,8 /112,8 ms (cùng process được chọn)|
-| Peak traced device allocation |1912,47 MiB; lấy peak lớn nhất3process|
-| Input |2ảnh512×512;16language tokens;10denoise steps; chunk50×32|
-| Protocol |3warmup+20reps/process;3process tuần tự; gap0|
-| Phạm vi |Engine predict; không network/simulator|
-| Điều kiện laptop |WSL2;6GiB; cắm sạc, nguồn bình thường, không tản nhiệt ngoài theo người dùng|
+| Kiểm thử CUDA | Sửa hai lỗi bit-exact và rerun; chưa thay tolerance |
+| Chất lượng Q8 | Official200 cho từng bản Q8; tổng 400 episode nếu chạy cả hai |
+| Độ ổn định SR | Protocol noise/seed rõ ràng và repeated-seed evaluation |
+| Profiling | Tách connector/attention, xác minh trace completeness và source/binary provenance |
+| CKA/CLP | Calibration riêng, chọn layer hợp lệ, finetuning và đánh giá mới |
+| Môi trường | Lock sạch, giải quyết bảy dependency conflicts; đo resident VRAM trên backend hỗ trợ |
 
-Telemetry runtime bổ sung ghi nhận53–72°C trong120mẫu, không phủ toàn bộ baseline; chưa đủ kết luận throttle. NVML process resident memory N/A. Có server cũ được phát hiện trong giai đoạn đo trước, chưa xác minh hoạt động request từng lượt; không khẳng định toàn bộ timing được cô lập. Lượt runtime bổ sung có guard từ chối khi còn server. Không suy nhiệt độ/throttle hoặc resident VRAM từ tính toán danh nghĩa.
+[Câu hỏi gửi review](REVIEW_REQUESTS.md) tập trung vào các giới hạn này. [Phụ lục tính toán](CALCULATIONS_SMOLVLA.md) lưu speedup, Wilson interval và các dự toán có nhãn; dự toán không thay thế kết quả official.
 
-## Đọc đủ Task 3–6 và phần chưa có số liệu
+## Kiểm tra lại dữ liệu
 
-- Task3: [bảng đầy đủ runtime và sáu quantization](PART3_OPTIMIZATION.md), kèm input, sai lệch real7 và giới hạn memory.
-- Task4: baseline official177/200; screening defaults38/40, flash-mm35/40, Q8-lm36/40, Q8-vision36/40. [Phụ lục tính toán](CALCULATIONS_SMOLVLA.md#task-4--sr-độ-bất-định-và-dự-toán-official) có Wilson95% và dự toán flash-mm175/200, Q8-lm180/200 và Q8-vision180/200, giả định SR không đổi. Flash-mm đã có số đo official 178/200; dự toán Q8 chưa được xác nhận.
-- Task5: [sơ đồ, phase timing và nsys](research-notes/smolvla-followup-20261104/ARCHITECTURE_AND_PROFILE.md); [tính tỷ trọng và dự báo theo depth](CALCULATIONS_SMOLVLA.md#task-5--phân-bổ-gpu-và-mô-hình-dự-báo). Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200.
-- Task6: [bảng ba pruning với file, allocation, p50/p90, sai lệch và smoke](CALCULATIONS_SMOLVLA.md#task-6--ba-pruning-đã-implement-và-kiểm-tra), implementation [prune_depth.py](research-notes/smolvla-followup-20261104/prune_depth.py). Đây là kết quả âm về chất lượng của depth pruning chưa finetune; chưa gọi là tái hiện CLP.
+Từ thư mục gốc repo, không cần GPU hoặc model:
 
-Tài liệu đã điền đủ phần giải thích, bằng chứng và tính toán cho6task; không đồng nghĩa mọi tiêu chí thực nghiệm đều đạt. Chưa thể thay bằng tính toán: hai testfail, residentVRAM, official hai bản Q8, attention/connector timing riêng, CKA/finetuning và repeated-seed. Chọn flash-mm theo SR official quan sát 178/200 so với defaults177/200; chưa chứng minh ưu thế thống kê. Ưu tiên đánh giá Q8-lm/Q8-vision cho memory; ba pruning chỉ đạt 0/40, 0/40 và 23/40 nên chưa chọn để triển khai.
+```bash
+python3 research-notes/smolvla-followup-20261104/audit_submission.py
+python3 research-notes/smolvla-followup-20261104/report_part3.py
+python3 research-notes/smolvla-followup-20261104/complete_calculations.py
+python3 research-notes/smolvla-followup-20261104/update_live_report.py
+git diff --check
+```
 
-
-## Kết luận và giới hạn của đợt báo cáo
-
-Các cấu hình flash-mm, Q8-lm và Q8-vision vẫn thực hiện được tác vụ điều khiển trong screening, nhưng tỷ lệ thành công quan sát thấp hơn defaults: flash-mm 35/40 (87,5%), hai bản Q8 cùng 36/40 (90%), so với defaults 38/40 (95%). Mức giảm quan sát tương ứng là 7,5 và 5 điểm phần trăm. Vì vậy, chưa xác nhận cấu hình nào giữ nguyên chất lượng điều khiển. Hai bản Q8 có kết quả screening cao hơn flash-mm, nhưng mẫu 40 episode chưa đủ để khẳng định khác biệt chất lượng. Kết luận này chỉ áp dụng cho ba cấu hình đã screening, không mở rộng sang các cấu hình runtime hoặc quantization khác chỉ có kiểm tra output synthetic.
-
-Báo cáo hiện bao gồm official defaults và flash-mm (200 episode/cấu hình), screening defaults và sáu biến thể (40 episode/cấu hình). Flash-mm và pruning là dữ liệu bổ sung sau đợt chốt trước. Lượt đồng bộ này không chạy thí nghiệm mới; hai lỗi CUDA vẫn tạm hoãn xử lý. Trạng thái kiểm thử vẫn là 13/15 pass, hai lỗi chưa sửa.
-
-Screening hoàn tất ngày 05/11/2026. Defaults là baseline official 177/200; flash-mm đã hoàn tất official 178/200 và được chọn theo SR quan sát. Flash-mm là ứng viên latency với mean 85,5 ms so với control 104,0 ms cùng batch. Q8-vision dùng allocation 925,88 MiB so với Q8-lm 1020,70 MiB và control quantization 1912,47 MiB; cả hai Q8 đạt 36/40. Chưa có kết quả cấu hình kết hợp quantization + flash-mm, nên không cộng các mức cải thiện.
-
-Các mục dưới đây là giới hạn và hướng nghiên cứu tiếp theo, không phải công việc đang chạy trong đợt báo cáo này.
-
-| Hạng mục chưa xác minh | Thực nghiệm cần có nếu mở rộng nghiên cứu |
-|---|---|
-| Hai lỗi CUDA bit-exact | Xác định nguyên nhân, sửa và chạy lại tests với hợp đồng hiện tại; không nới tolerance để đổi trạng thái |
-| Chất lượng biến thể chính thức | Chạy đủ 200 episode/biến thể theo protocol đã công bố, lưu CSV và policy recovery; còn 400 episode cho hai bản Q8; flash-mm đã hoàn tất |
-| Độ ổn định theo seed | Định nghĩa noise/seed protocol và chạy lặp; không chọn layer hoặc chỉnh cấu hình trên episode đánh giá |
-| Profile connector/attention | Thêm instrumentation tách module và đo lại, giữ rõ GPU-active và wall time |
-| CLP/CKA | Calibration riêng, activation/CKA, chọn layer hợp lệ, finetuning và đánh giá mới; ba depth ablation hiện tại chưa đạt chất lượng |
-| Môi trường tái lập | Giải quyết bảy dependency conflicts và tạo lock đã kiểm tra trên môi trường sạch |
-| Resident VRAM | Đo trên backend hỗ trợ process memory; WSL hiện trả N/A nên chỉ báo traced allocation |
-
-Bản báo cáo hoàn tất trong phạm vi dữ liệu hiện có. Flash-mm đạt SR quan sát cao hơn baseline 0,5 điểm phần trăm, chưa chứng minh non-inferiority hoặc hiệu quả CLP/CKA; phép ngoại suy SR và mô hình depth chỉ là tính toán có giả định.
-
-## Cập nhật sau đợt báo cáo: screening pruning và official flash-mm
-
-Đã đối chiếu CSV screening ba depth ablation: vision-tail-10 **0/40**,
-vision-spaced-10 **0/40**, coupled-tail-30 **23/40 (57,5%)**; tổng 120 episode,
-không abort. Đây là số đo mới, bổ sung cho smoke 0/2 lịch sử ở phần trên.
-Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200.
-
-Theo yêu cầu mới, đã mở thêm official flash-mm 200 episode, ngoài phạm vi
-đợt chốt trước. Lượt này đã hoàn tất đủ 200 episode, không abort: 178/200 = 89,0%. Kết quả và CSV ở [official200-flash-mm](research-notes/smolvla-followup-20261104/official200-flash-mm/result.json).
-Xem [scripts, kết quả và giới hạn CKA](research-notes/smolvla-pruning/README.md).
+Các lệnh kiểm tra/sinh báo cáo từ dữ liệu đã lưu, không chạy inference mới. GGUF, video, log và trace lớn vẫn là artifact cục bộ.

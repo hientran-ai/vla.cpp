@@ -68,10 +68,6 @@ def main():
     output = {'updated_at': updated, 'state': 'verified', 'scope': 'CSV counts, IDs, steps, SR and runner exits; no video audit',
               'variant_episodes': sum(results[n]['episodes'] for n in names), 'results': results}
     (DATA / 'screening-final-audit.json').write_text(json.dumps(output, indent=2) + '\n')
-    snapshot = {'updated_at': updated, 'classification': 'screening complete; official status in official_results',
-                'variants': {n: read(DATA / 'screen40-variants' / n / 'result.json') for n in names},
-                'official_results': {n: read(DATA / f'official200-{n}' / 'result.json') for n in ('defaults', 'flash-mm')}}
-    (ROOT / 'research-notes/review-20261104/submission-progress.json').write_text(json.dumps(snapshot, indent=2) + '\n')
     for name, result in results.items():
         print(f"{name}: {result['successes']}/{result['episodes']}, aborted={result['aborted']}")
     print('Verified 120 variant episodes and 40 baseline screening episodes.')

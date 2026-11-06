@@ -1,45 +1,24 @@
-# Báo cáo tiến độ SmolVLA — bản gửi review
+# SmolVLA — tóm tắt kết quả
 
-Tổng hợp đủ 6 task; cập nhật official flash-mm và screening pruning ngày 06/11/2026. Số đo thật, dự toán và tiêu chí chưa đạt được tách rõ.
+Cập nhật ngày 06/11/2026. Checkpoint `vrfai/smolvla-libero-gguf`, RTX 3060 Laptop 6 GiB, WSL2.
 
-Phạm vi chốt báo cáo: sử dụng kết quả đã đo, gồm official flash-mm 178/200 bổ sung sau đợt chốt screening; không chạy thí nghiệm mới trong lượt đồng bộ tài liệu. Hai lỗi CUDA được giữ nguyên và công bố với trạng thái 13/15 tests pass.
+**Chọn flash-mm theo SR official quan sát:** 178/200 (89,0%), so với defaults 177/200 (88,5%). Chênh lệch một episode chưa chứng minh ưu thế thống kê; Q8 chưa có official200.
 
-## Kết quả đã hoàn tất
+| Phần | Kết quả chính |
+|---|---|
+| Cài đặt | CUDA arch86; CLI/server/binding hoạt động; tests lịch sử 13/15 pass, hai lỗi bit-exact còn mở |
+| Baseline | Mean/p50/p90 112,0/111,8/112,8 ms; peak traced allocation 1912,47 MiB |
+| Tối ưu | 10 runtime configs và sáu GGUF quantized; flash-mm giảm mean 104,0 → 85,5 ms trong batch phần 3 |
+| LIBERO | Defaults official 177/200; flash-mm official 178/200; Q8-lm và Q8-vision screening cùng 36/40 |
+| Profile | Runtime-pair giảm median run mean 114,1 → 92,4 ms; chưa tách connector/attention đầy đủ |
+| Pruning | Vision-tail 0/40, vision-spaced 0/40, coupled-tail 23/40; chưa đạt chất lượng triển khai |
 
-- CUDA build arch86; các giao diện CLI/server/binding/predict_check hoạt động. Tests 13/15 pass, hai lỗi còn mở.
-- Baseline LIBERO chính thức: **177/200 = 88,5%**. Task9 đã chạy lại đầy đủ20episode sau timeout, loại phần dở; kết quả cuối kiểm tra đủ200episode không abort.
-- Phần3:10cấu hình runtime,6GGUF Q8/Q5/Q4 có/không vision; có bảng kích thước, latency, peak allocation và sai lệch action.
-- Flash-mm official: **178/200 = 89,0%**, được chọn theo SR quan sát trong các cấu hình đã hoàn tất official200.
-- Flash+mm screening: **35/40 = 87,5%**. Baseline screening đối chứng:38/40. Chưa kết luận khác biệt có ý nghĩa thống kê.
+Hai batch latency trong bảng có control và cách chọn thống kê riêng. Allocation chưa phải toàn bộ process resident VRAM. Trace có cảnh báo thiếu CUDA events. Server noise chưa cố định; chưa có repeated-seed evaluation, calibration CKA thực hoặc finetuning. Hai lỗi CUDA chưa được sửa/rerun.
 
-## Screening đã hoàn tất
+Audit đã đối chiếu **90 CSV / 680 episode**, tất cả `aborted=0`; giữ riêng smoke, screening và official.
 
-| Cấu hình | Episode đã chốt | Thành công | Trạng thái |
-|---|---:|---:|---|
-| flash-mm | 40/40 | 35 | complete: 87,5% |
-| q8-lm | 40/40 | 36 | complete: 90% |
-| q8-vision | 40/40 | 36 | complete: 90% |
-
-Batch đã hoàn tất 120/120 episode, cả ba cấu hình exit 0. Official flash-mm đã hoàn tất 178/200 (89,0%), không abort; hai bản Q8 chưa chạy official200. Q8-vision giảm allocation còn 925,88 MiB, thấp hơn Q8-lm 1020,70 MiB; cả hai đạt 36/40 nhưng chưa chứng minh tương đương. Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200.
-
-## Task 5 — architecture và profiling đã audit
-
-Đối chiếu sáu raw latency log và hai node traces có sẵn; không chạy GPU workload mới khi server đang dùng GPU. Runtime-pair: trung vị ba run means **114,1 → 92,4 ms (−19,02%)**; đây là batch/thống kê riêng với bảng phần 3. Vision+connector wall time 56,1 → 43,6 ms. Flash-mm giữ 10 steps và được chọn theo SR official quan sát; chưa chứng minh ưu thế chất lượng ổn định.
-
-Cả hai trace có cảnh báo **có thể chưa thu đủ CUDA events** và sử dụng legacy software tracing. Gap 10,54% → 9,13% mô tả recorded process activity, không chứng minh toàn GPU idle. Phase CPU wall có đồng bộ GPU nhưng đổi graph/padding, không phải pure kernel time hay phân rã chính xác default path. Chưa có connector/attention riêng hoặc rerun CUDA tests. [Báo cáo audit, source và tái lập](research-notes/task5-profiling/README.md).
-
-## Tài liệu chi tiết
-
-- [Kết quả theo task và kiểm tra 680 episode](research-notes/smolvla-followup-20261104/TASK_RESULTS.md) — đối chiếu CSV với manifest cuối, gồm official task 9 recovery.
-- [Phụ lục tính toán đủ 6 task](CALCULATIONS_SMOLVLA.md) — speedup, allocation, Wilson SR, dự toán official và pruning.
-- [Báo cáo tổng thể](REPORT_SMOLVLA.md)
-- [Bảng tối ưu không train](PART3_OPTIMIZATION.md)
-- [Kiến trúc và profiling](research-notes/smolvla-followup-20261104/ARCHITECTURE_AND_PROFILE.md)
-- [Các câu hỏi cần góp ý](REVIEW_REQUESTS.md)
-- [Kiến trúc, phương pháp pruning và giới hạn CKA](research-notes/smolvla-pruning/README.md)
-
-## Giới hạn cần đọc cùng kết quả
-
-VRAM là peak traced allocation, chưa phải toàn bộ resident VRAM riêng process trên WSL. Latency chỉ so với control cùng batch. Output-check dùng input synthetic khác benchmark và không thay được SR. Server noise chưa cố định. Screening pruning: vision-tail-10 0/40, vision-spaced-10 0/40, coupled-tail-30 23/40 (57,5%); đây là các lượt riêng với smoke 0/2 trước đó. Có tiện ích CKA/capture và kiểm thử synthetic, chưa có calibration thực, checkpoint CKA hoặc finetuning. Các chi tiết test fail, môi trường và recovery được công bố trong báo cáo tổng thể.
-
-Flash-mm official đo thật đạt 178/200; dự toán cũ 175/200 từ screening không còn là trạng thái đánh giá hiện tại. Q8-lm180/200 và Q8-vision180/200 là dự toán bằng200×SRscreening, chưa đo official. Screening pruning: vision-tail-10 0/40, vision-spaced-10 0/40, coupled-tail-30 23/40 (57,5%); đây là các lượt riêng với smoke 0/2 trước đó. Có tiện ích CKA/capture và kiểm thử synthetic, chưa có calibration thực, checkpoint CKA hoặc finetuning. Chọn flash-mm theo SR official quan sát so với baseline defaults177/200; chưa chứng minh non-inferiority thống kê.
+- [Báo cáo đầy đủ theo sáu phần](REPORT_SMOLVLA.md)
+- [Bảng tối ưu và điều kiện đo](PART3_OPTIMIZATION.md)
+- [Kết quả từng task và audit](research-notes/smolvla-followup-20261104/TASK_RESULTS.md)
+- [Câu hỏi cần review](REVIEW_REQUESTS.md)
+- [Chỉ dẫn tài liệu, dữ liệu và script](research-notes/README.md)

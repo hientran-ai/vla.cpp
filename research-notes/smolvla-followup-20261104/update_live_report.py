@@ -21,10 +21,10 @@ def main():
         ('Vision-spaced-10 screening', 'screen40-variants/smolvla-vision-spaced-10/result.json'),
         ('Coupled-tail-30 screening', 'screen40-variants/smolvla-coupled-tail-30/result.json'),
     ]
-    lines = [START, '## Hiện trạng đánh giá từ manifest', '',
+    lines = [START, '### Kết quả từ manifest', '',
              'Bảng sinh bằng `update_live_report.py`; audit CSV và hash ở '
              '[TASK_RESULTS.md](research-notes/smolvla-followup-20261104/TASK_RESULTS.md).', '',
-             '| Cấu hình | Thành công / episode hoàn tất | SR quan sát | Trạng thái |',
+             '| Cấu hình / lượt đánh giá | Thành công | SR quan sát | Trạng thái |',
              '|---|---:|---:|---|']
     official = []
     for label, relative in configurations:
@@ -33,7 +33,9 @@ def main():
         state = result['state']
         if state == 'complete':
             assert n == result['expected_episodes'], relative
-        lines.append(f'| {label} | {k}/{n} | {100*k/n:.1f}% | {state} |')
+        sr = f'{100*k/n:.1f}%'.replace('.', ',')
+        status = 'Hoàn tất' if state == 'complete' else state
+        lines.append(f'| {label} | {k}/{n} | {sr} | {status} |')
         if label.endswith('official') and state == 'complete' and n == 200:
             official.append((k/n, label, k, n))
     if official:
@@ -42,8 +44,7 @@ def main():
         lines += ['', 'SR official quan sát cao nhất trong các bản đã hoàn tất 200 episode: '
                   + ', '.join(f'{label} {k}/{n}' for _, label, k, n in winners) + '. '
                   'Chưa chứng minh ưu thế thống kê; hai bản Q8 và repeated-seed chưa có official.']
-    lines += ['', 'Smoke, screening và official là các lượt riêng, không cộng mẫu số. '
-              'Pruning hiện là depth ablation; có tiện ích CKA/capture nhưng chưa calibration thực hoặc finetuning.', END]
+    lines += [END]
     block = '\n'.join(lines) + '\n'
     path = ROOT / 'REPORT_SMOLVLA.md'
     content = path.read_text()

@@ -28,14 +28,9 @@ Smoke 0/2 trước đó và screening mới là các lượt riêng, không cộ
 Chạy kiểm tra từ gốc repo (Python có numpy và torch):
 
 ```bash
-python -m unittest discover -s research-notes/smolvla-pruning -p 'test_*.py'
+python3 -m unittest discover -s research-notes/smolvla-pruning -p 'test_*.py'
 ```
 
-## Official flash-mm đã hoàn tất
+## Kết quả chung
 
-Runner: `../smolvla-followup-20261104/run_official200_flash_mm.py`.
-Protocol: `../smolvla-followup-20261104/official200-flash-mm/protocol.json`.
-Đánh giá 10 × 20 episode, flags `--flash-attn --mm-prec default`.
-Flash-mm có SR official quan sát cao nhất trong các cấu hình đã đánh giá đủ 200 episode: 178/200 (89,0%) so với defaults 177/200 (88,5%). Chênh lệch 1 episode chưa chứng minh ưu thế thống kê; Q8-lm và Q8-vision chưa có official200.
-Đã đối chiếu đủ 200 episode trong 10 CSV, không abort. Kết quả: `../smolvla-followup-20261104/official200-flash-mm/result.json`; CSV official đã lưu trong Git.
-Các đường dẫn tuyệt đối trong protocol là đường dẫn môi trường đo, cần điều chỉnh khi tái lập.
+Official flash-mm và lựa chọn cấu hình nằm trong [báo cáo chính](../../REPORT_SMOLVLA.md). Bảng này chỉ đánh giá pruning; không dùng kết quả runtime để suy ra hiệu quả pruning.

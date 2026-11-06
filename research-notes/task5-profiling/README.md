@@ -1,8 +1,8 @@
 # Task 5 — SmolVLA architecture và CUDA profiling
 
-Ngày audit: 05/11/2026 (Asia/Bangkok). Commit hiện tại: `92d134a7557f4580f3b8c14042c1bad61c3f1d7c`.
+Ngày audit: 05/11/2026 (Asia/Bangkok). Commit tại lúc audit: `92d134a7557f4580f3b8c14042c1bad61c3f1d7c`.
 
-Báo cáo này kiểm tra source hiện tại và tái phân tích artifact ngày 04/11. **Không có benchmark hoặc CUDA test mới**: lúc kiểm tra có `/vla-server` PID 323174 đang dùng GPU (46%, 2045/6144 MiB). Không dừng tiến trình của người dùng. GPU truy vấn được ngoài sandbox; lỗi NVML trong sandbox không phải bằng chứng driver hỏng.
+Audit source và artifact đã lưu ngày 04/11, không chạy benchmark hoặc CUDA test mới. GPU có server hoạt động tại lúc audit nên chưa rerun kiểm thử. Kết luận tổng thể cập nhật ở [báo cáo chính](../../REPORT_SMOLVLA.md).
 
 ## Đọc theo thứ tự
 
@@ -25,9 +25,7 @@ Ubuntu 26.04.1, WSL2 kernel 6.18.33.2; RTX 3060 Laptop 6 GiB, compute capability
 Model `/home/doris/.cache/vla/vrfai/smolvla-libero-gguf/smolvla-libero.gguf`, SHA256 hiện tại khớp lịch sử:
 `6fb2d475c98b4c2cef3e27c4eff4e67b483740cbf983fff320a3b8a5e5f74fe8`.
 
-Ghi nhận lịch sử tại lúc audit 05/11 (không phải trạng thái Git hiện tại): repo đã dirty trước khi làm: NOTES_SMOLVLA.md sửa; off.txt, on.txt và các artifact nghiên cứu untracked. Chỉ thêm thư mục báo cáo này. Không sửa source/model/build flags, không commit/push.
-
-## Evidence
+## Bằng chứng
 
 `logs/*/audit.json` chứa tổng tính lại, API, diagnostics, top kernels và SHA256 artifact/source/binary. `audit_evidence.py` dùng SQLite mode=ro, đối chiếu cả sáu raw benchmark log và hai node trace. Chạy lại tạo thư mục timestamp mới.
 
