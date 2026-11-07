@@ -116,13 +116,6 @@ Timing theo phase: source src/models/smolvla.cpp đo vision gồm preprocessing/
 
 Runtime/quantization kế tiếp: screen defaults, flash-attn, mm-prec default, kết hợp, weight bf16/f16 ± flash; 2 warmup+5 reps, cấu hình thắng >3% rồi đo full. Denoise ít bước cần SR riêng. Quant Q8_0/Q5_0/Q4_0, mỗi mức có/không --vision, giữ action expert float theo MODELS.md; chưa tạo các file hoặc giả định cải thiện. Pruning cần đọc paper và chốt phương pháp/calibration/protocol trước khi implement.
 
-## Mình cần hiểu
-
-1. Build cache CUDA không chứng minh GPU truy cập được; cần banner GPU thật. Vì sao binary CUDA có thể vẫn không chạy GPU trong một terminal khác?
-2. ctest, CLI, server, binding và predict_check kiểm tra các hợp đồng khác nhau. Vì sao khớp bit giữa các giao diện chưa chứng minh success rate?
-3. p50/p90 baseline là engine latency trên synthetic input. Vì sao không dùng VRAM toàn GPU làm peak process hoặc dùng số baseline để suy ra SR?
-
-
 ## Bổ sung: peak bộ nhớ CUDA riêng process bằng nsys (2026-11-04)
 
 Yêu cầu tiếp theo: xử lý phần thiếu peak VRAM do WSL trả N/A. Không đổi GGUF, binary hoặc runtime flags, không sửa source. Kết quả **đo được chỉ số thay thế** sau; không coi nó tương đương số resident VRAM theo process mà docs/benchmark/rtx-3060.md lấy từ NVML.
